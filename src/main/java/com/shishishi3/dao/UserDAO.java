@@ -232,6 +232,12 @@ public class UserDAO {
         }
     }
 
+    /**
+     * 检查指定的用户名或邮箱是否已存在于数据库中。
+     * @param username 要检查的用户名。
+     * @param email 要检查的邮箱。
+     * @return 如果已存在则返回true，否则返回false。
+     */
     public boolean isUserExists(String username, String email) {
         String sql = "SELECT id FROM users WHERE username = ? OR email = ?";
         try (Connection conn = DbUtil.getConnection();
@@ -239,12 +245,13 @@ public class UserDAO {
             pstmt.setString(1, username);
             pstmt.setString(2, email);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next(); // 如果能找到记录，返回true
+                return rs.next(); // 如果能找到记录，rs.next()会返回true
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            // 在生产环境中，应该向上抛出异常或返回true以阻止注册
+            return true;
         }
-        return false;
     }
 
 

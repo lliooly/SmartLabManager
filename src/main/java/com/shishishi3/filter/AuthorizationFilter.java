@@ -32,7 +32,7 @@ public class AuthorizationFilter implements Filter {
         // ========== 1. 公共资源放行 ==========
         // 对登录页、登出操作、静态资源（CSS, JS等）不进行任何拦截
         // 请在判断条件中加入 path.equals("/register")
-        if (path.equals("/login") || path.equals("/register") || path.equals("/register-verify.jsp") || path.equals("/verify-registration")) {
+        if (path.equals("/login") || path.equals("/register") || path.equals("/logout")) {
             chain.doFilter(request, response);
             return;
         }

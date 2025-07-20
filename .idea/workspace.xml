@@ -9,7 +9,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="initial commit &amp; Login/register func" />
+    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="none">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/RoleListServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/RolePermissionManagementServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/PermissionDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/manage-role-permissions.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/role-list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LogoutServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LogoutServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/TaskServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/RoleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/RoleDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/TaskDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Task.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/tasks.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LoginServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LogoutServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LogoutServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/RoleDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/RoleDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/UserDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,6 +88,9 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="305LCU0DE1twFQoYpxzBZws6Y0q" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -201,7 +229,7 @@
       <option name="presentableId" value="Default" />
       <updated>1752912361597</updated>
       <workItem from="1752912362755" duration="9722000" />
-      <workItem from="1752969668981" duration="7124000" />
+      <workItem from="1752969668981" duration="8932000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit &amp; Login/register func">
       <option name="closed" value="true" />
@@ -211,7 +239,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752977082600</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="none">
+      <option name="closed" value="true" />
+      <created>1752977300526</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1752977300526</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,6 +255,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit &amp; Login/register func" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit &amp; Login/register func" />
+    <MESSAGE value="none" />
+    <option name="LAST_COMMIT_MESSAGE" value="none" />
   </component>
 </project>

@@ -12,11 +12,10 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession(false); // 获取现有Session，不要创建新的
+        HttpSession session = request.getSession(false);
         if (session != null) {
-            session.invalidate(); // 销毁Session
+            session.invalidate(); // 销毁Session，用户即退出登录
         }
-        // 重定向回登录页面
-        response.sendRedirect("login");
+        response.sendRedirect("login"); // 重定向回登录页面
     }
 }

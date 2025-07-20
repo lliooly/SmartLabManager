@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 16040
-  Date: 2025/7/19
-  Time: 23:44
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -55,9 +48,7 @@
     </div>
   </div>
 </div>
-
 <script>
-  // 前端简单验证：两次输入的密码是否一致
   const form = document.getElementById('registerForm');
   form.addEventListener('submit', function(event) {
     const password = document.getElementById('password').value;

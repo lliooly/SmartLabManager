@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 16040
-  Date: 2025/7/19
-  Time: 23:03
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -14,29 +7,20 @@
   <title>登录 - 智能实验室管理平台</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f5f5f5;
-    }
-    .login-form {
-      width: 100%;
-      max-width: 330px;
-      padding: 15px;
-      margin: auto;
-    }
+    body { display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f5f5f5; }
+    .login-form { width: 100%; max-width: 330px; padding: 15px; margin: auto; }
   </style>
 </head>
 <body class="text-center">
 <form class="login-form" action="login" method="post">
   <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
 
-  <%-- 登录成功/失败的提示信息... --%>
+  <%-- 用于显示注册成功后的提示 --%>
   <c:if test="${param.reg == 'success'}">
     <div class="alert alert-success">注册成功！请使用您的新账户登录。</div>
   </c:if>
+
+  <%-- 用于显示登录失败后的错误信息 --%>
   <c:if test="${not empty error}">
     <div class="alert alert-danger" role="alert">
       <c:out value="${error}" />
@@ -58,6 +42,7 @@
   <div class="text-center mt-3">
     <p>还没有账户？ <a href="register">立即注册</a></p>
   </div>
+
   <p class="mt-5 mb-3 text-muted">&copy; 2025 智能实验室</p>
 </form>
 </body>
