@@ -17,18 +17,6 @@
 </head>
 <body>
 
-<%-- 在 tasks.jsp 的文件顶部添加这段临时的调试代码 --%>
-<div class="alert alert-warning" role="alert">
-  <h4 class="alert-heading">调试信息 (请在问题解决后删除)</h4>
-  <p><strong>当前登录用户:</strong> ${sessionScope.user.username}</p>
-  <p><strong>用户拥有的权限列表:</strong> ${sessionScope.user.permissions}</p>
-  <hr>
-  <p class="mb-0">
-    <strong>检查 'admin:access' 权限:</strong> ${sessionScope.user.hasPermission('admin:access')} <br>
-    <strong>检查 'task:view' 权限:</strong> ${sessionScope.user.hasPermission('task:view')}
-  </p>
-</div>
-
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3>实验室任务面板</h3>

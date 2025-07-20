@@ -9,31 +9,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="none">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/RoleListServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/RolePermissionManagementServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/PermissionDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/manage-role-permissions.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/role-list.jsp" afterDir="false" />
+    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="rebuild and fix some bugs in Login/register func">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Equipment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/EquipmentBooking.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/admin/manage-user-roles.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/admin/user-list.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LogoutServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LogoutServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/TaskServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/RoleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/RoleDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/TaskDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Task.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/tasks.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LoginServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LogoutServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LogoutServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/RoleDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/RoleDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/UserDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/util/CharacterEncodingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/CharacterEncodingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/manage-role-permissions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin/manage-role-permissions.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/manage-user-roles.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/role-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin/role-list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/task-form.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user-list.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LoginServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LogoutServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LogoutServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/RegisterServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/RoleDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/RoleDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/UserDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/filter/AuthorizationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/manage-user-roles.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/manage-user-roles.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/register.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/tasks.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/tasks.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/user-list.jsp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +227,7 @@
       <option name="presentableId" value="Default" />
       <updated>1752912361597</updated>
       <workItem from="1752912362755" duration="9722000" />
-      <workItem from="1752969668981" duration="8932000" />
+      <workItem from="1752969668981" duration="10459000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit &amp; Login/register func">
       <option name="closed" value="true" />
@@ -247,7 +245,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752977300526</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="rebuild and fix some bugs in Login/register func">
+      <option name="closed" value="true" />
+      <created>1752979031081</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1752979031081</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,6 +262,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit &amp; Login/register func" />
     <MESSAGE value="none" />
-    <option name="LAST_COMMIT_MESSAGE" value="none" />
+    <MESSAGE value="rebuild and fix some bugs in Login/register func" />
+    <option name="LAST_COMMIT_MESSAGE" value="rebuild and fix some bugs in Login/register func" />
   </component>
 </project>
