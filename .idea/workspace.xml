@@ -9,110 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SmartLabManager.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LoginServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/LogoutServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/TaskServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/VerifyRegistrationServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/UserListServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/UserRoleManagementServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/AuditLogDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/RoleDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/TaskDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/UserDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Permission.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Task.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/util/CharacterEncodingFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/util/DbUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/util/EmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mail.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/access-denied.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/access-denied.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/manage-user-roles.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/register-verify.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/register.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/task-form.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/tasks.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/user-list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT.war" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/access-denied.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LoginServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LogoutServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/TaskServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/VerifyRegistrationServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/admin/UserListServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/admin/UserRoleManagementServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/AuditLogDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/RoleDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/TaskDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/UserDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/model/Role.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/model/Task.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/model/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/util/CharacterEncodingFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/util/DbUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/util/EmailService$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/util/EmailService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/db.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/mail.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/lib/jakarta.activation-2.0.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/lib/jakarta.mail-2.0.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/lib/jbcrypt-0.4.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/lib/jstl-1.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/lib/mysql-connector-j-8.0.33.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/lib/protobuf-java-3.21.9.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/access-denied.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/login.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/manage-user-roles.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/register-verify.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/register.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/task-form.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/tasks.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/user-list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LoginServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/LogoutServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/TaskServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/VerifyRegistrationServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/admin/UserListServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/admin/UserRoleManagementServlet.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/AuditLogDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/RoleDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/TaskDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/dao/UserDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/model/Role.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/model/Task.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/model/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/util/CharacterEncodingFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/util/DbUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/util/EmailService$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/util/EmailService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/db.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/mail.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="initial commit &amp; Login/register func" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -304,11 +201,24 @@
       <option name="presentableId" value="Default" />
       <updated>1752912361597</updated>
       <workItem from="1752912362755" duration="9722000" />
-      <workItem from="1752969668981" duration="6757000" />
+      <workItem from="1752969668981" duration="7124000" />
     </task>
+    <task id="LOCAL-00001" summary="initial commit &amp; Login/register func">
+      <option name="closed" value="true" />
+      <created>1752977082600</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1752977082600</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial commit &amp; Login/register func" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial commit &amp; Login/register func" />
   </component>
 </project>
