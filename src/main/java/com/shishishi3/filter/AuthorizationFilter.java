@@ -32,7 +32,7 @@ public class AuthorizationFilter implements Filter {
         // ========== 1. 公共资源放行 ==========
         // 对登录页、登出操作、静态资源（CSS, JS等）不进行任何拦截
         // 请在判断条件中加入 path.equals("/register")
-        if (path.equals("/login") || path.equals("/register") || path.equals("/logout")) {
+        if (path.equals("/login") || path.equals("/register") || path.equals("/register-verify.jsp") || path.equals("/verify-registration") || path.equals("/logout") || path.startsWith("/css/") || path.startsWith("/js/") || path.equals("/access-denied.jsp")) {
             chain.doFilter(request, response);
             return;
         }
@@ -61,6 +61,25 @@ public class AuthorizationFilter implements Filter {
             return; // 管理路径检查完毕，结束
         }
 
+        // 在 AuthorizationFilter.java 的 doFilter 方法中
+        if (path.equals("/equipment")) {
+            String action = request.getParameter("action");
+            String requiredPermission = null;
+
+            if (action == null || action.equals("list") || action.equals("view")) {
+                requiredPermission = "equipment:view";
+            } else if (action.equals("add_form") || action.equals("insert")) {
+                requiredPermission = "equipment:create";
+            } else if (action.equals("book")) { // 新增对预约操作的权限检查
+                requiredPermission = "equipment:book";
+            }
+
+            if (requiredPermission != null && !user.hasPermission(requiredPermission)) {
+                handleNoPermission(request, response, requiredPermission);
+                return;
+            }
+        }
+
         // 检查是否是任务模块的路径
         if (path.equals("/tasks")) {
             String action = request.getParameter("action");
@@ -80,6 +99,13 @@ public class AuthorizationFilter implements Filter {
             // 执行权限检查
             if (requiredPermission != null && !user.hasPermission(requiredPermission)) {
                 handleNoPermission(request, response, requiredPermission);
+                return;
+            }
+        }
+
+        if (path.equals("/manage-booking")) {
+            if (!user.hasPermission("booking:manage")) {
+                handleNoPermission(request, response, "booking:manage");
                 return;
             }
         }

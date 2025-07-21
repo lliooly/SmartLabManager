@@ -10,28 +10,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="rebuild and fix some bugs in Login/register func">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Equipment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/EquipmentBooking.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/admin/manage-user-roles.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/admin/user-list.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/BookingManagementServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/EquipmentServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/EquipmentDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/equipment-detail.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/equipment-form.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/equipment-list.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/util/CharacterEncodingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/CharacterEncodingFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/manage-role-permissions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin/manage-role-permissions.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/manage-user-roles.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/role-list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/admin/role-list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/task-form.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/user-list.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LoginServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LoginServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LogoutServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/LogoutServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Equipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Equipment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/EquipmentBooking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/EquipmentBooking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/RegisterServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/RoleDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/RoleDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/dao/UserDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/filter/AuthorizationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/manage-user-roles.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/manage-user-roles.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/register.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/tasks.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/tasks.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/user-list.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,18 +45,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "lliooly"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;lliooly&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/lliooly/SmartLabManager.git",
-    "accountId": "32b3f67f-1e57-4ce5-98c8-b22baf3c399b"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/lliooly/SmartLabManager.git&quot;,
+    &quot;accountId&quot;: &quot;32b3f67f-1e57-4ce5-98c8-b22baf3c399b&quot;
   }
-}]]></component>
+}</component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -98,6 +94,8 @@
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Tomcat 服务器.Tomcat 8.0.9.executor": "Run",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
@@ -111,7 +109,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2735632",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "MavenSettings",
+    "settings.editor.selected.configurable": "advanced.settings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -228,7 +226,8 @@
       <option name="presentableId" value="Default" />
       <updated>1752912361597</updated>
       <workItem from="1752912362755" duration="9722000" />
-      <workItem from="1752969668981" duration="10459000" />
+      <workItem from="1752969668981" duration="17362000" />
+      <workItem from="1753056328662" duration="3842000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit &amp; Login/register func">
       <option name="closed" value="true" />
@@ -254,7 +253,23 @@
       <option name="project" value="LOCAL" />
       <updated>1752979031081</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="rebuild and fix some bugs in Login/register func">
+      <option name="closed" value="true" />
+      <created>1752980649291</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1752980649291</updated>
+    </task>
+    <task id="LOCAL-00005" summary="rebuild and fix some bugs in Login/register func">
+      <option name="closed" value="true" />
+      <created>1752980664609</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1752980664609</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
