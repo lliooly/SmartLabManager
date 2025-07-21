@@ -51,14 +51,20 @@ public class AuthorizationFilter implements Filter {
 
         // 检查是否是需要管理员权限的路径
         if (path.startsWith("/admin/")) {
-            if (user.hasPermission("admin:access")) {
-                // 用户拥有管理员权限，放行
+            // 我们之前已经有了对 "admin:access" 的整体检查，
+            // 为了更精细，我们可以为不同管理页面设置不同权限
+            String requiredPermission = "admin:access"; // 默认需要后台访问权限
+
+            if (path.equals("/admin/manage-requests")) {
+                requiredPermission = "supply_request:manage"; // 审批申领需要专门的权限
+            }
+
+            if (user.hasPermission(requiredPermission)) {
                 chain.doFilter(request, response);
             } else {
-                // 用户没有管理员权限，拒绝访问
-                handleNoPermission(request, response, "admin:access");
+                handleNoPermission(request, response, requiredPermission);
             }
-            return; // 管理路径检查完毕，结束
+            return;
         }
 
         // 在 AuthorizationFilter.java 的 doFilter 方法中
@@ -106,6 +112,48 @@ public class AuthorizationFilter implements Filter {
         if (path.equals("/manage-booking")) {
             if (!user.hasPermission("booking:manage")) {
                 handleNoPermission(request, response, "booking:manage");
+                return;
+            }
+        }
+
+        if (path.equals("/supplies")) {
+            String action = request.getParameter("action");
+            String requiredPermission = null;
+
+            if (action == null || action.equals("list")) {
+                requiredPermission = "supply:view";
+            } else if (action.equals("add_form") || action.equals("insert") || action.equals("update_quantity")) {
+                // 将 update_quantity 操作也加入 supply:manage 权限的保护范围
+                requiredPermission = "supply:manage";
+            }
+
+            if (requiredPermission != null && !user.hasPermission(requiredPermission)) {
+                handleNoPermission(request, response, requiredPermission);
+                return;
+            }
+        }
+
+        if (path.equals("/supply-request")) {
+            if (!user.hasPermission("supply_request:create")) {
+                handleNoPermission(request, response, "supply_request:create");
+                return;
+            }
+        }
+
+        if (path.equals("/venues")) {
+            String action = request.getParameter("action");
+            String requiredPermission = null;
+
+            if (action == null || action.equals("list") || action.equals("view")) {
+                requiredPermission = "venue:view";
+            } else if (action.equals("add_form") || action.equals("insert")) {
+                requiredPermission = "venue:manage";
+            } else if (action.equals("book")) {
+                requiredPermission = "venue:book";
+            }
+
+            if (requiredPermission != null && !user.hasPermission(requiredPermission)) {
+                handleNoPermission(request, response, requiredPermission);
                 return;
             }
         }

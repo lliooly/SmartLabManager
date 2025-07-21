@@ -244,4 +244,23 @@ public class EquipmentDAO {
         }
         return bookings;
     }
+
+    /**
+     * 更新设备的维保信息（状态和上次维保日期）
+     * @param equipmentId 要更新的设备ID
+     * @param newMaintDate 新的维保日期
+     * @param newStatus 新的状态
+     */
+    public void updateMaintenanceInfo(int equipmentId, Date newMaintDate, String newStatus) {
+        String sql = "UPDATE equipment SET last_maintenance_date = ?, status = ? WHERE id = ?";
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, newMaintDate);
+            pstmt.setString(2, newStatus);
+            pstmt.setInt(3, equipmentId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

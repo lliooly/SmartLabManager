@@ -9,36 +9,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="rebuild and fix some bugs in Login/register func">
-      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/BookingManagementServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/EquipmentServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/EquipmentDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/equipment-detail.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/equipment-form.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/equipment-list.jsp" afterDir="false" />
+    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="fix some bugs amd finish developing equipment manager">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/SupplyRequestServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/SupplyServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/VenueServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/MaintenanceServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/admin/ManageSupplyRequestsServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/SupplyDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/SupplyRequestDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/VenueDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Supply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/SupplyRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Venue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/VenueBooking.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/maintenance-list.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/manage-requests.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/my-requests.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/supply-form.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/supply-list.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/supply-request-form.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/venue-form.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/venue-list.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/RegisterServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/EquipmentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/EquipmentDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/filter/AuthorizationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Equipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/Equipment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/EquipmentBooking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/model/EquipmentBooking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mail.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mail.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/RegisterServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/filter/AuthorizationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/SmartLabManager-1.0-SNAPSHOT/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/controller/RegisterServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shishishi3/filter/AuthorizationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mail.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mail.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jsp File" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -109,7 +123,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2735632",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "advanced.settings",
+    "settings.editor.selected.configurable": "editor.preferences.import",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -227,7 +241,7 @@
       <updated>1752912361597</updated>
       <workItem from="1752912362755" duration="9722000" />
       <workItem from="1752969668981" duration="17362000" />
-      <workItem from="1753056328662" duration="3842000" />
+      <workItem from="1753056328662" duration="9596000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit &amp; Login/register func">
       <option name="closed" value="true" />
@@ -269,7 +283,23 @@
       <option name="project" value="LOCAL" />
       <updated>1752980664609</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fix some bugs amd finish developing equipment manager">
+      <option name="closed" value="true" />
+      <created>1753060361662</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1753060361662</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix some bugs amd finish developing equipment manager">
+      <option name="closed" value="true" />
+      <created>1753060369440</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1753060369440</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,6 +309,7 @@
     <MESSAGE value="initial commit &amp; Login/register func" />
     <MESSAGE value="none" />
     <MESSAGE value="rebuild and fix some bugs in Login/register func" />
-    <option name="LAST_COMMIT_MESSAGE" value="rebuild and fix some bugs in Login/register func" />
+    <MESSAGE value="fix some bugs amd finish developing equipment manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix some bugs amd finish developing equipment manager" />
   </component>
 </project>
