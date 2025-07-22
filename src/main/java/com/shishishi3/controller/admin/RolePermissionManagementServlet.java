@@ -54,7 +54,7 @@ public class RolePermissionManagementServlet extends HttpServlet {
 
         User adminUser = (User) request.getSession().getAttribute("user");
         String logMessage = "更新了角色ID " + roleId + " 的权限。新的权限ID: " + (permissionIds != null ? Arrays.toString(permissionIds) : "无");
-        auditLogDAO.logAction(adminUser.getId(), adminUser.getUsername(), logMessage, "RolePermissions", roleId);
+        auditLogDAO.logAction(adminUser.getId(), adminUser.getUsername(), logMessage, "RolePermissions", roleId, request.getRemoteAddr());
 
         response.sendRedirect(request.getContextPath() + "/admin/roleList");
     }

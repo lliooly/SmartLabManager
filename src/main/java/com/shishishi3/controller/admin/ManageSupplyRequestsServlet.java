@@ -41,7 +41,7 @@ public class ManageSupplyRequestsServlet extends HttpServlet {
 
         // 记录审计日志
         String logMessage = "审批了物资申领ID " + requestId + ", 状态变更为: " + newStatus;
-        auditLogDAO.logAction(adminUser.getId(), adminUser.getUsername(), logMessage, "SupplyRequest", requestId);
+        auditLogDAO.logAction(adminUser.getId(), adminUser.getUsername(), logMessage, "SupplyRequest", requestId,request.getRemoteAddr());
 
         response.sendRedirect(request.getContextPath() + "/admin/manage-requests");
     }

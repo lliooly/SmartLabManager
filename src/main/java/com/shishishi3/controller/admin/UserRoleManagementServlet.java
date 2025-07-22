@@ -77,7 +77,7 @@ public class UserRoleManagementServlet extends HttpServlet {
         // 记录审计日志
         User adminUser = (User) request.getSession().getAttribute("user");
         String logMessage = "更新了用户ID " + userId + " 的角色。新的角色ID: " + (selectedRoleIds != null ? Arrays.toString(selectedRoleIds) : "无");
-        auditLogDAO.logAction(adminUser.getId(), adminUser.getUsername(), logMessage, "UserRoles", userId);
+        auditLogDAO.logAction(adminUser.getId(), adminUser.getUsername(), logMessage, "UserRoles", userId,request.getRemoteAddr());
 
         // 操作完成后，重定向回用户列表页
         response.sendRedirect(request.getContextPath() + "/admin/userList");

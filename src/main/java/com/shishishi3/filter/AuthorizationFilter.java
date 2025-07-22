@@ -32,7 +32,8 @@ public class AuthorizationFilter implements Filter {
         // ========== 1. 公共资源放行 ==========
         // 对登录页、登出操作、静态资源（CSS, JS等）不进行任何拦截
         // 请在判断条件中加入 path.equals("/register")
-        if (path.equals("/login") || path.equals("/register") || path.equals("/register-verify.jsp") || path.equals("/verify-registration") || path.equals("/logout") || path.startsWith("/css/") || path.startsWith("/js/") || path.equals("/access-denied.jsp")) {
+        // 在AuthorizationFilter.java中
+        if (path.equals("/login") || path.equals("/register") || path.equals("/send-code")) {
             chain.doFilter(request, response);
             return;
         }
@@ -51,12 +52,12 @@ public class AuthorizationFilter implements Filter {
 
         // 检查是否是需要管理员权限的路径
         if (path.startsWith("/admin/")) {
-            // 我们之前已经有了对 "admin:access" 的整体检查，
-            // 为了更精细，我们可以为不同管理页面设置不同权限
             String requiredPermission = "admin:access"; // 默认需要后台访问权限
 
             if (path.equals("/admin/manage-requests")) {
-                requiredPermission = "supply_request:manage"; // 审批申领需要专门的权限
+                requiredPermission = "supply_request:manage";
+            } else if (path.equals("/admin/audit-log")) { // <-- 新增对日志页面的判断
+                requiredPermission = "log:view";
             }
 
             if (user.hasPermission(requiredPermission)) {
@@ -154,6 +155,53 @@ public class AuthorizationFilter implements Filter {
 
             if (requiredPermission != null && !user.hasPermission(requiredPermission)) {
                 handleNoPermission(request, response, requiredPermission);
+                return;
+            }
+        }
+
+        if (path.equals("/projects")) {
+            if (!user.hasPermission("project:view")) {
+                handleNoPermission(request, response, "project:view");
+                return;
+            }
+        }
+
+        if (path.equals("/projects")) {
+            String action = request.getParameter("action");
+            String requiredPermission = null;
+
+            if (action == null || action.equals("list") || action.equals("view")) {
+                requiredPermission = "project:view";
+            } else if (action.equals("add_form") || action.equals("insert")) {
+                requiredPermission = "project:manage";
+            } else if (action.equals("create_task")) {
+                requiredPermission = "task:create";
+            }
+
+            if (requiredPermission != null && !user.hasPermission(requiredPermission)) {
+                handleNoPermission(request, response, requiredPermission);
+                return;
+            }
+        }
+
+        if (path.equals("/task")) {
+            String action = request.getParameter("action");
+            String requiredPermission = null;
+            if ("update_status".equals(action)) {
+                requiredPermission = "task:edit";
+            } else if ("delete".equals(action)) {
+                requiredPermission = "task:delete";
+            }
+
+            if (requiredPermission != null && !user.hasPermission(requiredPermission)) {
+                handleNoPermission(request, response, requiredPermission);
+                return;
+            }
+        }
+
+        if (path.equals("/assess-risk")) {
+            if (!user.hasPermission("project:assess_risk")) {
+                handleNoPermission(request, response, "project:assess_risk");
                 return;
             }
         }

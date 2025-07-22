@@ -156,4 +156,38 @@ public class VenueDAO {
             e.printStackTrace();
         }
     }
+    /**
+     * 根据用户ID，获取其所有未过期的场地预约记录
+     * @param userId 预约者的用户ID
+     * @return 包含该用户所有VenueBooking对象的列表
+     */
+    public List<VenueBooking> getBookingsByUserId(int userId) {
+        List<VenueBooking> bookingList = new ArrayList<>();
+        // JOIN venues 表以获取场地名称，并只查询未结束的预约
+        String sql = "SELECT vb.*, v.name as venue_name FROM venue_bookings vb " +
+                "JOIN venues v ON vb.venue_id = v.id " +
+                "WHERE vb.user_id = ? AND vb.status = '已预约' AND vb.end_time > NOW() ORDER BY vb.start_time ASC";
+
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    VenueBooking booking = new VenueBooking();
+                    booking.setId(rs.getInt("id"));
+                    booking.setVenueId(rs.getInt("venue_id"));
+                    booking.setUserId(rs.getInt("user_id"));
+                    booking.setStartTime(rs.getTimestamp("start_time"));
+                    booking.setEndTime(rs.getTimestamp("end_time"));
+                    booking.setStatus(rs.getString("status"));
+                    booking.setVenueName(rs.getString("venue_name"));
+                    bookingList.add(booking);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookingList;
+    }
 }

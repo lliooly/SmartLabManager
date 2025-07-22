@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             // 将包含所有权限的完整User对象存入Session
             session.setAttribute("user", user);
             // 重定向到主功能页面
-            response.sendRedirect("tasks");
+            response.sendRedirect("dashboard" );
         } else {
             // 登录失败
             request.setAttribute("error", "用户名或密码错误，请重试。");

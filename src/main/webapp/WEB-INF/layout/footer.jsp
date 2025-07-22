@@ -1,0 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%-- 在这里统一引入所有JavaScript文件 --%>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
+
+<%-- 如果未来有自定义的JS，也可以在这里引入 --%>
+<%-- <script src="${pageContext.request.contextPath}/js/custom.js"></script> --%>
+
+</body>
+</html>
