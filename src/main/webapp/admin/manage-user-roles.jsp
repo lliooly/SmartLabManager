@@ -29,7 +29,8 @@
             </div>
             <hr>
             <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> 保存更改</button>
-            <a href="${pageContext.request.contextPath}/admin/userList" class="btn btn-secondary">返回</a>
+            <c:url var="fallbackUrl" value="/admin/user-list.jsp"/>
+            <a href="${not empty returnUrl ? returnUrl : fallbackUrl}" class="btn btn-secondary">返回</a>
           </form>
         </div>
       </div>

@@ -5,7 +5,9 @@ import com.shishishi3.util.DbUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProjectDAO {
 
@@ -170,5 +172,20 @@ public class ProjectDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Map<String, Integer> getProjectStatusCounts() {
+        Map<String, Integer> statusCounts = new HashMap<>();
+        String sql = "SELECT status, COUNT(*) as count FROM projects GROUP BY status";
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                statusCounts.put(rs.getString("status"), rs.getInt("count"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return statusCounts;
     }
 }

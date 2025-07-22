@@ -26,7 +26,7 @@
             <td><c:out value="${role.roleName}"/></td>
             <td><c:out value="${role.description}"/></td>
             <td>
-              <a href="${pageContext.request.contextPath}/admin/manageRolePermissions?roleId=${role.id}" class="btn btn-info btn-sm">
+              <a href="${pageContext.request.contextPath}/admin/manageRolePermissions?roleId=${role.id}&returnUrl=${pageContext.request.contextPath}/admin/roleList" class="btn btn-info btn-sm">
                 管理权限
               </a>
             </td>

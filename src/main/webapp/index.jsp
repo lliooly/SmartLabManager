@@ -8,15 +8,32 @@
 </jsp:include>
 
 <%-- 2. 页面的核心内容 --%>
-<div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+<div class="container main-content">
   <h2 class="mb-4">欢迎回来, <c:out value="${sessionScope.user.fullName}"/>!</h2>
 
   <div class="row">
     <div class="col-lg-8">
-      <div class="card mb-4 card-glass">
-        <div class="card-header font-weight-bold">
-          <i class="bi bi-list-task"></i> 我的待办任务
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card card-glass h-100">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> 项目状态分布</h5>
+              <div id="projectStatusChart" style="width: 100%; height: 300px;"></div>
+            </div>
+          </div>
         </div>
+        <div class="col-md-6 mb-4">
+          <div class="card card-glass h-100">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-bar-chart-line-fill"></i> 设备预约趋势</h5>
+              <div id="monthlyBookingsChart" style="width: 100%; height: 300px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4 card-glass">
+        <div class="card-header font-weight-bold"><i class="bi bi-list-task"></i> 我的待办任务</div>
         <ul class="list-group list-group-flush">
           <c:if test="${empty myTasks}">
             <li class="list-group-item text-muted" style="background: transparent;">太棒了！您当前没有待办任务。</li>
@@ -34,7 +51,6 @@
           <a href="#" class="list-group-item list-group-item-action text-center text-primary" style="background: transparent;">查看所有任务...</a>
         </ul>
       </div>
-
       <div class="card mb-4 card-glass">
         <div class="card-header font-weight-bold">
           <i class="bi bi-folder2-open"></i> 我创建的项目
@@ -88,6 +104,65 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var projectStatusChartDom = document.getElementById('projectStatusChart');
+    var monthlyBookingsChartDom = document.getElementById('monthlyBookingsChart');
+
+    if (!projectStatusChartDom || !monthlyBookingsChartDom) {
+      console.error("Chart containers not found!");
+      return;
+    }
+
+    var projectStatusChart = echarts.init(projectStatusChartDom);
+    var monthlyBookingsChart = echarts.init(monthlyBookingsChartDom);
+
+    fetch('${pageContext.request.contextPath}/api/dashboard-data')
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              // 项目状态饼图
+              const projectData = Object.entries(data.projectStatus).map(([name, value]) => ({ name, value }));
+              const projectOption = {
+                tooltip: { trigger: 'item', formatter: '{b} : {c} ({d}%)' },
+                legend: { top: 'bottom', textStyle: { color: '#333' } },
+                series: [{
+                  name: '项目状态', type: 'pie', radius: ['40%', '70%'],
+                  avoidLabelOverlap: false, itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
+                  label: { show: false }, emphasis: { label: { show: true, fontSize: 18, fontWeight: 'bold' } },
+                  data: projectData
+                }]
+              };
+              projectStatusChart.setOption(projectOption);
+
+              // 设备预约趋势折线图
+              const bookingMonths = Object.keys(data.monthlyBookings);
+              const bookingCounts = Object.values(data.monthlyBookings);
+              const bookingOption = {
+                tooltip: { trigger: 'axis' },
+                xAxis: { type: 'category', data: bookingMonths, axisLine: { lineStyle: { color: '#333' } } },
+                yAxis: { type: 'value', axisLine: { lineStyle: { color: '#333' } } },
+                series: [{
+                  name: '预约次数', data: bookingCounts, type: 'line', smooth: true,
+                  itemStyle: { color: '#007bff' }, areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(0, 123, 255, 0.5)' }, { offset: 1, color: 'rgba(0, 123, 255, 0.1)' }]) }
+                }],
+                grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true }
+              };
+              monthlyBookingsChart.setOption(bookingOption);
+            })
+            .catch(error => console.error('Error fetching dashboard data:', error));
+
+    window.addEventListener('resize', function() {
+      projectStatusChart.resize();
+      monthlyBookingsChart.resize();
+    });
+  });
+</script>
 
 <%-- 3. 引入公共尾部 --%>
 <jsp:include page="/WEB-INF/layout/footer.jsp" />

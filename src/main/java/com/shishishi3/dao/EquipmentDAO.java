@@ -6,7 +6,9 @@ import com.shishishi3.util.DbUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EquipmentDAO {
 
@@ -262,5 +264,23 @@ public class EquipmentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Map<String, Integer> getMonthlyBookingCounts() {
+        Map<String, Integer> monthlyCounts = new LinkedHashMap<>(); // 使用LinkedHashMap保持月份顺序
+        String sql = "SELECT DATE_FORMAT(start_time, '%Y-%m') as month, COUNT(*) as count " +
+                "FROM equipment_bookings " +
+                "WHERE start_time >= DATE_SUB(NOW(), INTERVAL 12 MONTH) " +
+                "GROUP BY month ORDER BY month ASC";
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                monthlyCounts.put(rs.getString("month"), rs.getInt("count"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return monthlyCounts;
     }
 }

@@ -9,7 +9,10 @@
 <div class="container main-content">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3><i class="bi bi-cpu"></i> 设备详情</h3>
-        <a href="${pageContext.request.contextPath}/equipment" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> 返回设备列表</a>
+        <c:url var="fallbackUrl" value="/equipment"/>
+        <a href="${not empty returnUrl ? returnUrl : fallbackUrl}" class="btn btn-outline-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> 返回
+        </a>
     </div>
 
     <div class="row">

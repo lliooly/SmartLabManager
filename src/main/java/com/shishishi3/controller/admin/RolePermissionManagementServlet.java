@@ -33,6 +33,7 @@ public class RolePermissionManagementServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int roleId = Integer.parseInt(request.getParameter("roleId"));
+        String returnUrl = request.getParameter("returnUrl"); // 新增
 
         Role targetRole = roleDAO.getRoleById(roleId);
         List<Permission> allPermissions = permissionDAO.getAllPermissions();
@@ -41,6 +42,7 @@ public class RolePermissionManagementServlet extends HttpServlet {
         request.setAttribute("targetRole", targetRole);
         request.setAttribute("allPermissions", allPermissions);
         request.setAttribute("currentPermissionIds", currentPermissionIds);
+        request.setAttribute("returnUrl", returnUrl); // 新增
 
         request.getRequestDispatcher("/admin/manage-role-permissions.jsp").forward(request, response);
     }

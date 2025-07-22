@@ -45,7 +45,7 @@
             </td>
             <td><c:out value="${equ.location}"/></td>
             <td>
-              <a href="${pageContext.request.contextPath}/equipment?action=view&id=${equ.id}" class="btn btn-info btn-sm">查看详情 & 预约</a>
+              <a href="${pageContext.request.contextPath}/equipment?action=view&id=${equ.id}&returnUrl=${pageContext.request.contextPath}/equipment" class="btn btn-info btn-sm">查看详情 & 预约</a>
             </td>
           </tr>
         </c:forEach>

@@ -1,9 +1,7 @@
 package com.shishishi3.controller;
 
 import com.shishishi3.dao.EquipmentDAO;
-import com.shishishi3.model.Equipment;
-import com.shishishi3.model.EquipmentBooking;
-import com.shishishi3.model.User;
+import com.shishishi3.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.util.List;
 import java.sql.Timestamp;
+import java.util.List;
 
 @WebServlet("/equipment")
 public class EquipmentServlet extends HttpServlet {
@@ -120,11 +118,15 @@ public class EquipmentServlet extends HttpServlet {
 
     private void viewEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+        String returnUrl = request.getParameter("returnUrl"); // 新增：获取returnUrl参数
+
         Equipment equipment = equipmentDAO.getEquipmentById(id);
         List<EquipmentBooking> bookings = equipmentDAO.getBookingsForEquipment(id);
 
         request.setAttribute("equipment", equipment);
         request.setAttribute("bookingList", bookings);
+        request.setAttribute("returnUrl", returnUrl); // 新增：将returnUrl传递给JSP页面
+
         request.getRequestDispatcher("/equipment-detail.jsp").forward(request, response);
     }
 }

@@ -30,8 +30,8 @@
             </div>
             <hr>
             <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> 保存更改</button>
-            <a href="${pageContext.request.contextPath}/admin/roleList" class="btn btn-secondary">返回</a>
-          </form>
+            <c:url var="fallbackUrl" value="/admin/role-list.jsp"/>
+            <a href="${not empty returnUrl ? returnUrl : fallbackUrl}" class="btn btn-secondary">返回</a>          </form>
         </div>
       </div>
     </div>

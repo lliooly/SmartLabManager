@@ -271,9 +271,6 @@ public class UserDAO {
         System.out.println("Admin Hash: " + hashedPassword1);
         System.out.println("Teacher Hash: " + hashedPassword2);
         System.out.println("Student Hash: " + hashedPassword3);
-
-        // Example: To insert an admin user, you would run an SQL statement like:
-        // INSERT INTO users (username, password, email, full_name) VALUES ('admin', '$2a$10$....', 'admin@example.com', 'Administrator');
     }
 
 

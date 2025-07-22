@@ -37,25 +37,20 @@ public class UserRoleManagementServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
+            String returnUrl = request.getParameter("returnUrl"); // 新增：获取returnUrl参数
 
-            // 从DAO获取所需数据
             User targetUser = userDAO.getUserById(userId);
             List<Role> allRoles = roleDAO.getAllRoles();
-
-            // 调用新的方法名 getRolesByUserId，获取用户的角色对象集合
             Set<Role> currentUserRoles = roleDAO.getRolesByUserId(userId);
-
-            // 从角色对象集合中，提取出ID集合，以方便JSP页面进行判断
             Set<Integer> currentUserRoleIds = currentUserRoles.stream()
                     .map(Role::getId)
                     .collect(Collectors.toSet());
 
-            // 将数据存入request，以便JSP页面使用
             request.setAttribute("targetUser", targetUser);
             request.setAttribute("allRoles", allRoles);
             request.setAttribute("currentUserRoleIds", currentUserRoleIds);
+            request.setAttribute("returnUrl", returnUrl); // 新增：将returnUrl传递给JSP
 
-            // 转发到JSP页面
             request.getRequestDispatcher("/admin/manage-user-roles.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {

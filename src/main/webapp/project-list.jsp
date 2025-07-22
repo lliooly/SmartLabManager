@@ -38,7 +38,7 @@
             <td><fmt:formatDate value="${project.startDate}" pattern="yyyy-MM-dd"/></td>
             <td><fmt:formatDate value="${project.endDate}" pattern="yyyy-MM-dd"/></td>
             <td>
-              <a href="${pageContext.request.contextPath}/projects?action=view&id=${project.id}" class="btn btn-info btn-sm">查看详情</a>
+              <a href="${pageContext.request.contextPath}/projects?action=view&id=${project.id}&returnUrl=${pageContext.request.requestURI}" class="btn btn-info btn-sm">查看详情</a>
             </td>
           </tr>
         </c:forEach>

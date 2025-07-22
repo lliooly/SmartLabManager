@@ -36,7 +36,7 @@
             <td><c:out value="${user.fullName}"/></td>
             <td><c:out value="${user.email}"/></td>
             <td>
-              <a href="${pageContext.request.contextPath}/admin/manageUserRoles?userId=${user.id}" class="btn btn-primary btn-sm">
+              <a href="${pageContext.request.contextPath}/admin/manageUserRoles?userId=${user.id}&returnUrl=${pageContext.request.contextPath}/admin/userList" class="btn btn-primary btn-sm">
                 管理角色
               </a>
             </td>

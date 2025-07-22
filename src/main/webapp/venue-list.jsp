@@ -35,7 +35,7 @@
                         <td>${venue.capacity} 人</td>
                         <td><span class="badge badge-success">${venue.status}</span></td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/venues?action=view&id=${venue.id}" class="btn btn-info btn-sm">查看详情 & 预约</a>
+                            <a href="${pageContext.request.contextPath}/venues?action=view&id=${venue.id}&returnUrl=${pageContext.request.contextPath}/venues" class="btn btn-info btn-sm">查看详情 & 预约</a>
                         </td>
                     </tr>
                 </c:forEach>

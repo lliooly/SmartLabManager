@@ -6,9 +6,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
-
-<%-- 如果未来有自定义的JS，也可以在这里引入 --%>
-<%-- <script src="${pageContext.request.contextPath}/js/custom.js"></script> --%>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 
 </body>
 </html>

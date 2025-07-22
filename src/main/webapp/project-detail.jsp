@@ -9,7 +9,10 @@
 <div class="container main-content">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3><i class="bi bi-folder2-open"></i> 项目详情</h3>
-    <a href="${pageContext.request.contextPath}/projects" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> 返回项目列表</a>
+    <c:url var="fallbackUrl" value="/projects"/>
+    <a href="${not empty returnUrl ? returnUrl : fallbackUrl}" class="btn btn-outline-secondary mb-3">
+      <i class="bi bi-arrow-left"></i> 返回
+    </a>
   </div>
   <c:if test="${param.assessment == 'done'}"><div class="alert alert-success">AI风险评估已完成并保存！</div></c:if>
 

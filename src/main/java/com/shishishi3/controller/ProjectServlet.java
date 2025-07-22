@@ -127,12 +127,18 @@ public class ProjectServlet extends HttpServlet {
 
     private void viewProject(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int projectId = Integer.parseInt(request.getParameter("id"));
+
         Project project = projectDAO.getProjectById(projectId);
         List<Task> taskList = taskDAO.getTasksByProjectId(projectId);
         List<User> userList = userDAO.getAllUsers();
+
+        String returnUrl = request.getParameter("returnUrl");
+
         request.setAttribute("project", project);
         request.setAttribute("taskList", taskList);
         request.setAttribute("userList", userList);
+        request.setAttribute("returnUrl", returnUrl);
+
         request.getRequestDispatcher("/project-detail.jsp").forward(request, response);
     }
 

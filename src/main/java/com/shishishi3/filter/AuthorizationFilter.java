@@ -41,8 +41,20 @@ public class AuthorizationFilter implements Filter {
         // ========== 2. 认证检查 (是否登录) ==========
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
-            // 用户未登录，重定向到登录页面
-            response.sendRedirect(request.getContextPath() + "/login");
+            // 如果是API请求，返回一个JSON格式的错误，而不是重定向
+            if (path.startsWith("/api/")) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"User not authenticated\"}");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
+            return;
+        }
+
+        // 如果是已登录用户访问API，则直接放行，不进行后续的权限检查
+        if (path.startsWith("/api/")) {
+            chain.doFilter(request, response);
             return;
         }
 

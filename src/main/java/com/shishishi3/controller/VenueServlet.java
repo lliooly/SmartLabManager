@@ -26,11 +26,15 @@ public class VenueServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        switch (action == null ? "list" : action) {
+        if (action == null) {
+            action = "list";
+        }
+
+        switch (action) {
             case "add_form":
                 showAddForm(request, response);
                 break;
-            case "view": // 新增：处理查看详情的请求
+            case "view":
                 viewVenue(request, response);
                 break;
             case "list":
@@ -44,38 +48,52 @@ public class VenueServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
+
         if ("insert".equals(action)) {
             insertVenue(request, response);
-        } else if ("book".equals(action)) { // 新增：处理预约提交的请求
+        } else if ("book".equals(action)) {
             bookVenue(request, response);
         }
     }
 
     private void listVenues(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // ... 此方法保持不变
+        List<Venue> venueList = venueDAO.getAllVenues();
+        request.setAttribute("venueList", venueList);
+        request.getRequestDispatcher("/venue-list.jsp").forward(request, response);
     }
 
     private void showAddForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // ... 此方法保持不变
+        request.getRequestDispatcher("/venue-form.jsp").forward(request, response);
     }
 
-    private void insertVenue(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // ... 此方法保持不变
-    }
-
-    // 新增方法：用于显示场地详情和预约情况
     private void viewVenue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int venueId = Integer.parseInt(request.getParameter("id"));
+        String returnUrl = request.getParameter("returnUrl");
+
         Venue venue = venueDAO.getVenueById(venueId);
         List<VenueBooking> bookings = venueDAO.getBookingsForVenue(venueId);
 
         request.setAttribute("venue", venue);
         request.setAttribute("bookingList", bookings);
+        request.setAttribute("returnUrl", returnUrl);
+
         request.getRequestDispatcher("/venue-detail.jsp").forward(request, response);
     }
 
-    // 新增方法：用于处理用户提交的预约
-    private void bookVenue(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void insertVenue(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Venue venue = new Venue();
+        venue.setName(request.getParameter("name"));
+        venue.setDescription(request.getParameter("description"));
+        venue.setLocation(request.getParameter("location"));
+        venue.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+        venue.setStatus(request.getParameter("status"));
+
+        venueDAO.addVenue(venue);
+
+        response.sendRedirect(request.getContextPath() + "/venues");
+    }
+
+    private void bookVenue(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int venueId = Integer.parseInt(request.getParameter("venueId"));
         Timestamp startTime = Timestamp.valueOf(request.getParameter("startTime").replace("T", " ") + ":00");
         Timestamp endTime = Timestamp.valueOf(request.getParameter("endTime").replace("T", " ") + ":00");
@@ -83,12 +101,14 @@ public class VenueServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
 
         if (endTime.before(startTime)) {
-            response.sendRedirect("venues?action=view&id=" + venueId + "&error=time_error");
+            request.getSession().setAttribute("errorMessage", "预约失败：结束时间不能早于开始时间。");
+            response.sendRedirect("venues?action=view&id=" + venueId);
             return;
         }
 
         if (venueDAO.hasBookingConflict(venueId, startTime, endTime)) {
-            response.sendRedirect("venues?action=view&id=" + venueId + "&error=conflict");
+            request.getSession().setAttribute("errorMessage", "预约失败：您选择的时间段与现有预约冲突。");
+            response.sendRedirect("venues?action=view&id=" + venueId);
         } else {
             VenueBooking booking = new VenueBooking();
             booking.setVenueId(venueId);
@@ -98,7 +118,8 @@ public class VenueServlet extends HttpServlet {
             booking.setPurpose(purpose);
 
             venueDAO.createBooking(booking);
-            response.sendRedirect("venues?action=view&id=" + venueId + "&success=booked");
+            request.getSession().setAttribute("successMessage", "场地预约成功！");
+            response.sendRedirect("venues?action=view&id=" + venueId);
         }
     }
 }
