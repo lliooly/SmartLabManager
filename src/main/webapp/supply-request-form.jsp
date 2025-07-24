@@ -11,6 +11,11 @@
       <div class="card card-glass">
         <div class="card-header"><h3><i class="bi bi-box-seam"></i> 发起物资申领</h3></div>
         <div class="card-body">
+          <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger" role="alert">
+                ${errorMessage}
+            </div>
+          </c:if>
           <form action="supply-request" method="post">
             <div class="form-group">
               <label for="supplyId">选择物资</label>

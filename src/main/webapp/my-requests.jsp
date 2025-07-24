@@ -15,14 +15,14 @@
   <div class="card card-glass">
     <div class="card-body">
       <table class="table table-hover">
-        <thead><tr><th>物资名称</th><th>申领数量</th><th>申领日期</th><th>状态</th><th>备注</th></tr></thead>
+       <thead><tr><th>物资名称</th><th>申领数量</th><th>申领日期</th><%-- <th>状态</th>--%><th>备注</th></tr></thead>
         <tbody>
         <c:forEach var="req" items="${myRequests}">
           <tr>
             <td><c:out value="${req.supplyName}"/></td>
             <td>${req.quantityRequested}</td>
             <td><fmt:formatDate value="${req.requestDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-            <td><c:out value="${req.status}"/></td>
+<%--            <td><c:out value="${req.status}"/></td>--%>
             <td><c:out value="${req.notes}"/></td>
           </tr>
         </c:forEach>

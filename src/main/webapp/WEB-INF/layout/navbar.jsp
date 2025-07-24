@@ -7,8 +7,8 @@
     background-color: rgba(255, 255, 255, 0.75);
 
     /* 核心：应用背景模糊效果 */
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
 
     /* 边框也改为深色透明，以搭配浅色背景 */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -46,6 +46,12 @@
               </c:if>
               <c:if test="${sessionScope.user.hasPermission('venue:view')}">
                 <a class="dropdown-item" href="${pageContext.request.contextPath}/venues">场地管理</a>
+              </c:if>
+              <c:if test="${sessionScope.user.hasPermission('supply_request:create')}">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/supply-request?action=my_list">
+                  <i class="bi bi-card-checklist"></i> 我的申领
+                </a>
               </c:if>
             </div>
           </li>

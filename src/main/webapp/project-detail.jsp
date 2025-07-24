@@ -66,6 +66,20 @@
         </div>
       </div>
 
+      <div class="card card-glass mb-4">
+        <div class="card-header font-weight-bold"><i class="bi bi-body-text"></i> 实验方案详情</div>
+        <div class="card-body">
+          <h5>实验目的</h5>
+          <p><c:out value="${requestScope.project.purpose}" default="未填写"/></p>
+          <hr>
+          <h5>详细操作步骤</h5>
+          <p style="white-space: pre-wrap;"><c:out value="${requestScope.project.procedureSteps}" default="未填写"/></p>
+          <hr>
+          <h5>所用试剂和设备</h5>
+          <p style="white-space: pre-wrap;"><c:out value="${requestScope.project.reagentsAndEquipment}" default="未填写"/></p>
+        </div>
+      </div>
+
       <c:if test="${sessionScope.user.hasPermission('task:create')}">
         <div class="card card-glass">
           <div class="card-header font-weight-bold"><i class="bi bi-plus-circle"></i> 添加新任务</div>

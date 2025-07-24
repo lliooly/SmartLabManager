@@ -56,7 +56,16 @@ public class SupplyRequestServlet extends HttpServlet {
         int supplyId = Integer.parseInt(request.getParameter("supplyId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         String notes = request.getParameter("notes");
+        Supply supply = supplyDAO.getSupplyById(supplyId);
 
+        if (supply != null && quantity > supply.getQuantityOnHand()) {
+            // 如果申领数量 > 库存数量，则验证失败
+            String errorMessage = "申领失败：申领数量 (" + quantity + ") 不能大于当前库存 (" + supply.getQuantityOnHand() + ")。";
+            request.setAttribute("errorMessage", errorMessage);
+
+            showRequestForm(request, response);
+            return; // 提前
+        }
         SupplyRequest newRequest = new SupplyRequest();
         newRequest.setSupplyId(supplyId);
         newRequest.setQuantityRequested(quantity);
@@ -64,6 +73,15 @@ public class SupplyRequestServlet extends HttpServlet {
         newRequest.setRequesterId(user.getId());
 
         requestDAO.createRequest(newRequest);
+
+        int newQuantity = supply.getQuantityOnHand() - quantity;
+        supplyDAO.updateStockQuantity(supplyId, newQuantity);
+
         response.sendRedirect("supply-request?action=my_list");
+    }
+    private void showRequestForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Supply> allSupplies = supplyDAO.getAllSupplies();
+        request.setAttribute("allSupplies", allSupplies);
+        request.getRequestDispatcher("/supply-request-form.jsp").forward(request, response);
     }
 }

@@ -76,7 +76,7 @@
         <div class="list-group list-group-flush">
           <a href="projects" class="list-group-item list-group-item-action" style="background: transparent;"><i class="bi bi-card-list text-secondary"></i> 查看所有项目</a>
           <c:if test="${sessionScope.user.hasPermission('project:manage')}">
-            <a href="projects?action=add_form" class="list-group-item list-group-item-action" style="background: transparent;"><i class="bi bi-plus-circle-fill text-success"></i> 创建新项目</a>
+            <a href="projects?action=add_form" class="list-group-item list-group-item-action" style="background: transparent;"><i class="bi bi-plus-circle" style="color: darkgreen"></i>创建新项目</a>
           </c:if>
           <a href="equipment" class="list-group-item list-group-item-action" style="background: transparent;"><i class="bi bi-calendar2-plus text-info"></i> 设备预约</a>
           <a href="venues" class="list-group-item list-group-item-action" style="background: transparent;"><i class="bi bi-calendar2-event text-info"></i> 场地预约</a>
