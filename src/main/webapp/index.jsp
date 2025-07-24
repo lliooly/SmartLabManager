@@ -45,7 +45,7 @@
                 <br>
                 <small class="text-muted">所属项目: <c:out value="${task.projectName}"/></small>
               </div>
-              <span class="badge badge-primary badge-pill">${task.status}</span>
+              <span class="badge badge-primary badge-pill">${task.statusName}</span> <%-- 修正后的代码 --%>
             </li>
           </c:forEach>
           <a href="#" class="list-group-item list-group-item-action text-center text-primary" style="background: transparent;">查看所有任务...</a>
@@ -60,7 +60,7 @@
             <div class="list-group-item text-muted" style="background: transparent;">您尚未创建任何项目。</div>
           </c:if>
           <c:forEach var="project" items="${myProjects}" begin="0" end="4">
-            <a href="projects?action=view&id=${project.id}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" style="background: transparent;">
+            <a href="projects?action=view&id=${project.id}&returnUrl=${pageContext.request.contextPath}/dashboard"class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" style="background: transparent;">
               <c:out value="${project.projectName}"/>
               <span class="badge badge-info">${project.status}</span>
             </a>

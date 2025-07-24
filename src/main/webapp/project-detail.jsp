@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <jsp:include page="/WEB-INF/layout/header.jsp">
   <jsp:param name="pageTitle" value="项目详情"/>
@@ -10,7 +11,7 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3><i class="bi bi-folder2-open"></i> 项目详情</h3>
     <c:url var="fallbackUrl" value="/projects"/>
-    <a href="${not empty returnUrl ? returnUrl : fallbackUrl}" class="btn btn-outline-secondary mb-3">
+    <a href="${not empty param.returnUrl ? param.returnUrl : fallbackUrl}" class="btn btn-outline-secondary mb-3">
       <i class="bi bi-arrow-left"></i> 返回
     </a>
   </div>
@@ -23,13 +24,7 @@
         <div class="card-body">
           <table class="table table-sm table-hover">
             <thead class="thead-light">
-            <tr>
-              <th>任务名称</th>
-              <th>负责人</th>
-              <th>截止日期</th>
-              <th>状态</th>
-              <th>操作</th>
-            </tr>
+            <tr><th>任务名称</th><th>负责人</th><th>截止日期</th><th>状态</th><th>操作</th></tr>
             </thead>
             <tbody>
             <c:forEach var="task" items="${taskList}">
@@ -44,15 +39,14 @@
                       <input type="hidden" name="taskId" value="${task.id}">
                       <input type="hidden" name="projectId" value="${project.id}">
                       <select name="status" class="form-control form-control-sm" onchange="this.form.submit()">
-                        <option value="待办" ${task.status == '待办' ? 'selected' : ''}>待办</option>
-                        <option value="进行中" ${task.status == '进行中' ? 'selected' : ''}>进行中</option>
-                        <option value="已完成" ${task.status == '已完成' ? 'selected' : ''}>已完成</option>
+                        <option value="申请中" ${task.statusName == '申请中' ? 'selected' : ''}>申请中</option>
+                        <option value="进行中" ${task.statusName == '进行中' ? 'selected' : ''}>进行中</option>
+                        <option value="已完成" ${task.statusName == '已完成' ? 'selected' : ''}>已完成</option>
+                        <option value="已归档" ${task.statusName == '已归档' ? 'selected' : ''}>已归档</option>
                       </select>
                     </form>
                   </c:if>
-                  <c:if test="${!sessionScope.user.hasPermission('task:edit')}">
-                    <c:out value="${task.status}"/>
-                  </c:if>
+                  <c:if test="${!sessionScope.user.hasPermission('task:edit')}"><c:out value="${task.statusName}"/></c:if>
                 </td>
                 <td>
                   <c:if test="${sessionScope.user.hasPermission('task:delete')}">
@@ -71,41 +65,26 @@
           </table>
         </div>
       </div>
+
       <c:if test="${sessionScope.user.hasPermission('task:create')}">
         <div class="card card-glass">
           <div class="card-header font-weight-bold"><i class="bi bi-plus-circle"></i> 添加新任务</div>
           <div class="card-body">
             <form action="projects?action=create_task" method="post">
               <input type="hidden" name="projectId" value="${project.id}">
-              <div class="form-group">
-                <label for="taskName">任务名称</label>
-                <input type="text" id="taskName" name="taskName" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label for="description">任务描述</label>
-                <textarea id="description" name="description" class="form-control" rows="2"></textarea>
-              </div>
+              <div class="form-group"><label>任务名称</label><input type="text" name="taskName" class="form-control" required></div>
               <div class="form-row">
                 <div class="form-group col-md-4">
-                  <label for="assigneeId">分配给</label>
-                  <select id="assigneeId" name="assigneeId" class="form-control">
+                  <label>分配给</label>
+                  <select name="assigneeId" class="form-control">
                     <option value="0">-- 未分配 --</option>
-                    <c:forEach var="user" items="${userList}">
-                      <option value="${user.id}">${user.fullName}</option>
-                    </c:forEach>
+                    <c:forEach var="user" items="${userList}"><option value="${user.id}">${user.fullName}</option></c:forEach>
                   </select>
                 </div>
+                <div class="form-group col-md-4"><label>截止日期</label><input type="date" name="dueDate" class="form-control"></div>
                 <div class="form-group col-md-4">
-                  <label for="dueDate">截止日期</label>
-                  <input type="date" id="dueDate" name="dueDate" class="form-control">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="priority">优先级</label>
-                  <select id="priority" name="priority" class="form-control">
-                    <option>低</option>
-                    <option selected>中</option>
-                    <option>高</option>
-                  </select>
+                  <label>优先级</label>
+                  <select name="priority" class="form-control"><option>低</option><option selected>中</option><option>高</option></select>
                 </div>
               </div>
               <button type="submit" class="btn btn-success">创建任务</button>
@@ -115,6 +94,7 @@
       </c:if>
     </div>
 
+    <%-- 右侧信息栏 --%>
     <div class="col-lg-4">
       <div class="card card-glass mb-4">
         <div class="card-header"><h4><i class="bi bi-info-circle"></i> 项目信息</h4></div>
@@ -125,48 +105,43 @@
           <p class="mb-0"><strong>周期:</strong> <fmt:formatDate value="${project.startDate}" pattern="yyyy-MM-dd"/> 至 <fmt:formatDate value="${project.endDate}" pattern="yyyy-MM-dd"/></p>
         </div>
       </div>
+
       <c:if test="${sessionScope.user.hasPermission('project:manage')}">
         <div class="card card-glass mb-4">
           <div class="card-header"><strong><i class="bi bi-toggles"></i> 管理项目状态</strong></div>
           <div class="card-body">
-            <form action="projects" method="post" class="form-inline">
+            <form action="projects" method="post">
               <input type="hidden" name="action" value="update_status">
               <input type="hidden" name="projectId" value="${project.id}">
-              <div class="form-group flex-grow-1 mr-2">
-                <select name="newStatus" class="form-control">
-                  <option value="申请中" ${project.status == '申请中' ? 'selected' : ''}>申请中</option>
-                  <option value="进行中" ${project.status == '进行中' ? 'selected' : ''}>进行中</option>
-                  <option value="已完成" ${project.status == '已完成' ? 'selected' : ''}>已完成</option>
-                  <option value="已归档" ${project.status == '已归档' ? 'selected' : ''}>已归档</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-warning">更新</button>
+              <div class="form-group"><select name="newStatus" class="form-control">
+                <option value="申请中" ${project.status == '申请中' ? 'selected' : ''}>申请中</option>
+                <option value="进行中" ${project.status == '进行中' ? 'selected' : ''}>进行中</option>
+                <option value="已完成" ${project.status == '已完成' ? 'selected' : ''}>已完成</option>
+                <option value="已归档" ${project.status == '已归档' ? 'selected' : ''}>已归档</option>
+              </select></div>
+              <button type="submit" class="btn btn-warning btn-block">更新</button>
             </form>
           </div>
         </div>
       </c:if>
-      <div class="card card-glass mb-4">
-        <div class="card-header font-weight-bold"><i class="bi bi-journal-text"></i> 实验方案</div>
-        <div class="card-body small">
-          <p><strong>目的:</strong> <c:out value="${project.purpose}"/></p>
-          <p><strong>步骤:</strong> <pre style="white-space: pre-wrap; font-family: inherit;"><c:out value="${project.procedureSteps}"/></pre></p>
-          <p><strong>试剂设备:</strong> <pre style="white-space: pre-wrap; font-family: inherit;"><c:out value="${project.reagentsAndEquipment}"/></pre></p>
-        </div>
-      </div>
+
+      <%-- ==================== AI 风险评估 (传统同步版) ==================== --%>
       <c:if test="${sessionScope.user.hasPermission('project:assess_risk')}">
         <div class="card card-glass">
           <div class="card-header"><h4><i class="bi bi-shield-check"></i> AI 风险评估</h4></div>
           <div class="card-body">
-            <div id="report-container"></div>
-            <div id="report-json" style="display:none;">${project.riskAssessmentReport}</div>
+              <%-- 报告显示区域 --%>
+            <div id="report-container"><p class="text-muted">暂无评估报告。请提交分析以生成报告。</p></div>
             <hr>
+
+              <%-- **修正1: 恢复为传统的form提交方式** --%>
             <form action="assess-risk" method="post">
-              <input type="hidden" name="projectId" value="${project.id}">
+              <input type="hidden" name="projectId" value="${requestScope.project.id}">
               <div class="form-group">
-                <label for="additionalInfo"><small>补充信息 (可选)</small></label>
-                <textarea name="additionalInfo" id="additionalInfo" class="form-control" rows="2" placeholder="输入想让AI特别注意的信息..."></textarea>
+                <label for="additionalNotes"><strong>补充说明（可选）</strong></label>
+                <textarea name="additionalNotes" id="additionalNotes" class="form-control" rows="3" placeholder="如果项目信息不够详细，可在此处添加额外备注以提高AI评估准确度..."></textarea>
               </div>
-              <button type="submit" class="btn btn-info">开始AI风险评估</button>
+              <button type="submit" class="btn btn-info">更新并重新评估</button>
             </form>
           </div>
         </div>
@@ -175,34 +150,94 @@
   </div>
 </div>
 
+<%
+  // 在JSP中使用Java代码直接处理，避开EL表达式限制
+  String riskReport = "";
+  if(request.getAttribute("project") != null) {
+    Object project = request.getAttribute("project");
+    // 注意：请将下面的类路径修改为你实际的Project类路径
+    riskReport = ((com.shishishi3.model.Project)project).getRiskAssessmentReport();
+
+    // 处理换行符和转义
+    if(riskReport != null) {
+      // 移除所有换行符和回车符
+      riskReport = riskReport.replace("\n", "").replace("\r", "");
+      // 转义双引号等特殊字符
+      riskReport = riskReport.replace("\\", "\\\\")
+              .replace("\"", "\\\"")
+              .replace("\b", "\\b")
+              .replace("\f", "\\f")
+              .replace("\n", "\\n")
+              .replace("\r", "\\r")
+              .replace("\t", "\\t");
+    } else {
+      riskReport = "";
+    }
+  }
+%>
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const reportContainer = document.getElementById('report-container');
-    const reportJsonDiv = document.getElementById('report-json');
-    if (reportJsonDiv && reportJsonDiv.textContent.trim()) {
+
+    // 直接使用Java预处理后的变量
+    const jsonStringFromServer = '<%= riskReport %>';
+
+    // 处理HTML实体编码
+    const processedJson = jsonStringFromServer.replace(/&#034;/g, '"');
+
+    if (processedJson && processedJson.trim() && processedJson.trim() !== 'null') {
       try {
-        const reportData = JSON.parse(reportJsonDiv.textContent);
-        let html = '';
-        if (reportData.error) { html = `<p class="text-danger">${reportData.error}</p>`; }
-        else {
-          if (reportData.risk_points && reportData.risk_points.length > 0) {
-            html += '<h6>识别出的风险点：</h6><ul>';
-            reportData.risk_points.forEach(p => { html += `<li><strong>步骤:</strong> ${p.step} <br/> <strong>风险:</strong> ${p.risk} <span class="badge badge-danger">${p.level}</span></li>`; });
-            html += '</ul><hr>';
+        const reportData = JSON.parse(processedJson);
+        reportContainer.innerHTML = '';
+
+        if (reportData.error) {
+          const errorP = document.createElement('p');
+          errorP.className = 'text-danger';
+          errorP.textContent = '评估错误: ' + reportData.error;
+          reportContainer.appendChild(errorP);
+        } else {
+          if (reportData.risk_assessment && reportData.risk_assessment.length > 0) {
+            const h6 = document.createElement('h6');
+            h6.textContent = '风险评估与防护建议';
+            const dl = document.createElement('dl');
+
+            reportData.risk_assessment.forEach(p => {
+              const dt = document.createElement('dt');
+              const dd = document.createElement('dd');
+
+              dt.innerHTML = p.risk_item + ' <span class="badge badge-danger">' + p.risk_level + '</span>';
+              dd.textContent = '防护建议: ' + p.protective_measure;
+
+              dl.appendChild(dt);
+              dl.appendChild(dd);
+            });
+
+            reportContainer.appendChild(h6);
+            reportContainer.appendChild(dl);
+            reportContainer.appendChild(document.createElement('hr'));
           }
-          if (reportData.suggestions && reportData.suggestions.length > 0) {
-            html += '<h6>改进建议：</h6><ol>';
-            reportData.suggestions.forEach(s => { html += `<li>${s}</li>`; });
-            html += '</ol><hr>';
-          }
+
           if (reportData.emergency_plan) {
-            html += '<h6>应急预案：</h6>';
-            for (const [key, value] of Object.entries(reportData.emergency_plan)) { html += `<p><strong>${key.replace('_',' ')}:</strong> ${value}</p>`; }
+            const h6_plan = document.createElement('h6');
+            h6_plan.textContent = '应急预案与事故处理';
+
+            const p_guide = document.createElement('p');
+            p_guide.textContent = '应对流程指引: ' + reportData.emergency_plan.procedure_guidance;
+
+            const p_analysis = document.createElement('p');
+            p_analysis.textContent = '事故记录与分析: ' + reportData.emergency_plan.accident_record_analysis;
+
+            reportContainer.appendChild(h6_plan);
+            reportContainer.appendChild(p_guide);
+            reportContainer.appendChild(p_analysis);
           }
         }
-        reportContainer.innerHTML = html;
-      } catch (e) { reportContainer.innerHTML = '<p class="text-danger">评估报告格式错误，无法解析。</p>'; }
-    } else { reportContainer.innerHTML = '<p class="text-muted">暂无评估报告。请提交分析以生成报告。</p>'; }
+      } catch (e) {
+        reportContainer.innerHTML = '<p class="text-danger">评估报告格式损坏，无法解析。错误: ' + e.message + '</p>';
+        console.error('JSON解析错误:', e, '处理后的字符串:', processedJson);
+      }
+    }
   });
 </script>
 

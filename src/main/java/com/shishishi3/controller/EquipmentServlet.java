@@ -1,7 +1,11 @@
 package com.shishishi3.controller;
 
 import com.shishishi3.dao.EquipmentDAO;
-import com.shishishi3.model.*;
+import com.shishishi3.model.Equipment;
+import com.shishishi3.model.EquipmentBooking;
+import com.shishishi3.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,36 +14,45 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
 @WebServlet("/equipment")
 public class EquipmentServlet extends HttpServlet {
     private EquipmentDAO equipmentDAO;
+    private static final Logger logger = LoggerFactory.getLogger(EquipmentServlet.class);
 
     @Override
     public void init() {
+
         equipmentDAO = new EquipmentDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        if (action == null) {
+            action = "list";
+        }
 
-        // 根据action参数决定执行哪个操作
-        switch (action == null ? "list" : action) {
-            case "add_form":
-                // 显示添加设备的表单
-                showAddForm(request, response);
-                break;
-            case "view":
-                viewEquipment(request, response);
-                break;
-            case "list":
-            default:
-                // 默认操作：显示设备列表
-                listEquipment(request, response);
-                break;
+        try {
+            switch (action) {
+                case "add_form":
+                    showAddForm(request, response);
+                    break;
+                case "view":
+                    viewEquipment(request, response);
+                    break;
+                case "list":
+                default:
+                    listEquipment(request, response);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("errorMessage", "加载设备页面时发生未知错误，请稍后重试。");
+            response.sendRedirect("dashboard");
         }
     }
 
@@ -47,13 +60,28 @@ public class EquipmentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
+        String redirectUrl = "equipment";
 
-        if ("insert".equals(action)) {
-            insertEquipment(request, response);
-        } else if ("book".equals(action)) {
-            bookEquipment(request, response);
+        try {
+            if ("insert".equals(action)) {
+                insertEquipment(request, response);
+                return;
+            } else if ("book".equals(action)) {
+                bookEquipment(request, response);
+                return;
+            }
+        } catch (Exception e) {
+            logger.error("An unexpected error occurred in doPost of EquipmentServlet", e);
+            request.getSession().setAttribute("errorMessage", "执行操作时发生未知错误，请查看服务器日志。");
+            String equipmentId = request.getParameter("equipmentId");
+            if (equipmentId != null && !equipmentId.isEmpty()) {
+                redirectUrl = "equipment?action=view&id=" + equipmentId;
+            }
+            response.sendRedirect(redirectUrl);
         }
     }
+
+    // --- 私有辅助方法 ---
 
     private void listEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Equipment> equipmentList = equipmentDAO.getAllEquipment();
@@ -65,6 +93,17 @@ public class EquipmentServlet extends HttpServlet {
         request.getRequestDispatcher("/equipment-form.jsp").forward(request, response);
     }
 
+    private void viewEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String returnUrl = request.getParameter("returnUrl");
+        Equipment equipment = equipmentDAO.getEquipmentById(id);
+        List<EquipmentBooking> bookings = equipmentDAO.getBookingsForEquipment(id);
+        request.setAttribute("equipment", equipment);
+        request.setAttribute("bookingList", bookings);
+        request.setAttribute("returnUrl", returnUrl);
+        request.getRequestDispatcher("/equipment-detail.jsp").forward(request, response);
+    }
+
     private void insertEquipment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Equipment equipment = new Equipment();
         equipment.setName(request.getParameter("name"));
@@ -72,8 +111,6 @@ public class EquipmentServlet extends HttpServlet {
         equipment.setSerialNumber(request.getParameter("serialNumber"));
         equipment.setLocation(request.getParameter("location"));
         equipment.setStatus(request.getParameter("status"));
-
-        // 处理日期，需要判空
         String purchaseDateStr = request.getParameter("purchaseDate");
         if (purchaseDateStr != null && !purchaseDateStr.isEmpty()) {
             equipment.setPurchaseDate(Date.valueOf(purchaseDateStr));
@@ -82,51 +119,66 @@ public class EquipmentServlet extends HttpServlet {
         if (maintDateStr != null && !maintDateStr.isEmpty()) {
             equipment.setLastMaintenanceDate(Date.valueOf(maintDateStr));
         }
-
         equipmentDAO.addEquipment(equipment);
-
-        // 操作完成后，重定向回设备列表页面
+        request.getSession().setAttribute("successMessage", "新设备添加成功！");
         response.sendRedirect(request.getContextPath() + "/equipment");
     }
 
-    private void bookEquipment(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int equipmentId = Integer.parseInt(request.getParameter("equipmentId"));
-        Timestamp startTime = Timestamp.valueOf(request.getParameter("startTime").replace("T", " ") + ":00");
-        Timestamp endTime = Timestamp.valueOf(request.getParameter("endTime").replace("T", " ") + ":00");
-        String purpose = request.getParameter("purpose");
-        User user = (User) request.getSession().getAttribute("user");
+    // --- 修正后的 bookEquipment 方法 ---
+    private void bookEquipment(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        logger.info("--- bookEquipment method started ---");
 
-        // 核心逻辑：先检查时间是否冲突
-        if (equipmentDAO.hasBookingConflict(equipmentId, startTime, endTime)) {
-            // 存在冲突，重定向回详情页并附带错误信息
-            response.sendRedirect("equipment?action=view&id=" + equipmentId + "&error=conflict");
-        } else {
-            // 没有冲突，创建预约
-            EquipmentBooking booking = new EquipmentBooking();
-            booking.setEquipmentId(equipmentId);
-            booking.setUserId(user.getId());
-            booking.setStartTime(startTime);
-            booking.setEndTime(endTime);
-            booking.setPurpose(purpose);
+        String equipmentIdParam = request.getParameter("equipmentId");
+        String startTimeParam = request.getParameter("startTime");
+        String endTimeParam = request.getParameter("endTime");
 
-            equipmentDAO.createBooking(booking);
+        logger.debug("Received parameters -> equipmentId: [{}], startTime: [{}], endTime: [{}]", equipmentIdParam, startTimeParam, endTimeParam);
 
-            // 预约成功，重定向回详情页并附带成功信息
-            response.sendRedirect("equipment?action=view&id=" + equipmentId + "&success=booked");
+        int equipmentId = 0;
+        Timestamp startTime = null;
+        Timestamp endTime = null;
+        try {
+            equipmentId = Integer.parseInt(equipmentIdParam);
+            startTime = Timestamp.valueOf(startTimeParam.replace("T", " ") + ":00");
+            endTime = Timestamp.valueOf(endTimeParam.replace("T", " ") + ":00");
+            String purpose = request.getParameter("purpose");
+            User user = (User) request.getSession().getAttribute("user");
+
+            if (endTime.before(startTime)) {
+                logger.warn("Validation FAILED for booking: End time is before start time. User: {}", user.getUsername());
+                request.getSession().setAttribute("errorMessage", "预约失败：结束时间不能早于开始时间。");
+                response.sendRedirect("equipment?action=view&id=" + equipmentId);
+                return;
+            }
+
+            logger.debug("Checking for booking conflicts for equipmentId: {}", equipmentId);
+            if (equipmentDAO.hasBookingConflict(equipmentId, startTime, endTime)) {
+                logger.warn("Validation FAILED for booking: Time conflict found for equipmentId: {}. User: {}", equipmentId, user.getUsername());
+                request.getSession().setAttribute("errorMessage", "预约失败：您选择的时间段与现有预约冲突。");
+                response.sendRedirect("equipment?action=view&id=" + equipmentId);
+            } else {
+                logger.info("No conflicts found. Proceeding to create booking for equipmentId: {}", equipmentId);
+                EquipmentBooking booking = new EquipmentBooking();
+                booking.setEquipmentId(equipmentId);
+                booking.setUserId(user.getId());
+                booking.setStartTime(startTime);
+                booking.setEndTime(endTime);
+                booking.setPurpose(purpose);
+
+                equipmentDAO.createBooking(booking);
+
+                request.getSession().setAttribute("successMessage", "设备预约成功！");
+                response.sendRedirect("equipment?action=view&id=" + equipmentId);
+            }
+        } catch (NumberFormatException e) {
+            logger.error("CRITICAL ERROR: Failed to parse equipmentId parameter. Value was: '{}'", equipmentIdParam, e);
+            request.getSession().setAttribute("errorMessage", "操作失败：提交的设备ID无效。");
+            response.sendRedirect("equipment");
+        } catch (IllegalArgumentException e) {
+            logger.error("CRITICAL ERROR: Failed to parse date/time string. StartTime='{}', EndTime='{}'", startTimeParam, endTimeParam, e);
+            request.getSession().setAttribute("errorMessage", "操作失败：提交的日期或时间格式不正确。");
+            String redirectUrl = (equipmentId > 0) ? "equipment?action=view&id=" + equipmentId : "equipment";
+            response.sendRedirect(redirectUrl);
         }
-    }
-
-    private void viewEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String returnUrl = request.getParameter("returnUrl"); // 新增：获取returnUrl参数
-
-        Equipment equipment = equipmentDAO.getEquipmentById(id);
-        List<EquipmentBooking> bookings = equipmentDAO.getBookingsForEquipment(id);
-
-        request.setAttribute("equipment", equipment);
-        request.setAttribute("bookingList", bookings);
-        request.setAttribute("returnUrl", returnUrl); // 新增：将returnUrl传递给JSP页面
-
-        request.getRequestDispatcher("/equipment-detail.jsp").forward(request, response);
     }
 }

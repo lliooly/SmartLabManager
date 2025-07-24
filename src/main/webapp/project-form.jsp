@@ -30,10 +30,4 @@
     </div>
   </div>
 </div>
-
-<script>
-  flatpickr("#startDate", { altInput: true, altFormat: "Y/m/d", dateFormat: "Y-m-d", locale: "zh" });
-  flatpickr("#endDate", { altInput: true, altFormat: "Y/m/d", dateFormat: "Y-m-d", locale: "zh" });
-</script>
-
 <jsp:include page="/WEB-INF/layout/footer.jsp" />

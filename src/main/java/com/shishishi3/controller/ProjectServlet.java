@@ -1,6 +1,5 @@
 package com.shishishi3.controller;
 
-import com.shishishi3.dao.AuditLogDAO;
 import com.shishishi3.dao.ProjectDAO;
 import com.shishishi3.dao.TaskDAO;
 import com.shishishi3.dao.UserDAO;
@@ -8,6 +7,7 @@ import com.shishishi3.model.Project;
 import com.shishishi3.model.Task;
 import com.shishishi3.model.User;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +22,6 @@ public class ProjectServlet extends HttpServlet {
     private ProjectDAO projectDAO;
     private TaskDAO taskDAO;
     private UserDAO userDAO;
-    private AuditLogDAO auditLogDAO;
 
     @Override
     public void init() {
@@ -33,129 +32,152 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-
-        // 健壮的写法：如果action是null，则默认为"list"
-        if (action == null) {
-            action = "list";
-        }
+        if (action == null) { action = "list"; }
 
         switch (action) {
-            case "add_form":
-                showAddForm(request, response);
-                break;
-            case "view":
-                viewProject(request, response);
-                break;
-            case "list":
-            default: // 任何其他情况都默认显示列表
-                listProjects(request, response);
-                break;
+            case "view": viewProject(request, response); break;
+            case "add_form": showNewForm(request, response); break;
+            default: listProjects(request, response); break;
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
+        if (action == null) { listProjects(request, response); return; }
 
-        if ("insert".equals(action)) {
-            insertProject(request, response);
-        } else if ("create_task".equals(action)) {
-            createTaskForProject(request, response);
-        } else if ("update_status".equals(action)) { // 新增：处理更新状态的请求
-            updateProjectStatus(request, response);
+        switch (action) {
+            case "insert": insertProject(request, response); break;
+            case "create_task": createTaskForProject(request, response); break;
+            case "update_status": updateProjectStatus(request, response); break;
+            default: listProjects(request, response); break;
         }
     }
 
-    // 新增一个私有方法来处理状态更新逻辑
-    private void updateProjectStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int projectId = Integer.parseInt(request.getParameter("projectId"));
-        String newStatus = request.getParameter("newStatus");
-        User currentUser = (User) request.getSession().getAttribute("user");
 
-        // 更新数据库
-        projectDAO.updateProjectStatus(projectId, newStatus);
-
-        // 记录审计日志
-        // 您需要在Servlet的init()方法中初始化 auditLogDAO = new AuditLogDAO();
-        String logMessage = "更新了项目ID " + projectId + " 的状态为: " + newStatus;
-        auditLogDAO.logAction(currentUser.getId(), currentUser.getUsername(), logMessage, "Project", projectId,request.getRemoteAddr());
-
-        // 操作完成后，重定向回项目详情页
-        response.sendRedirect(request.getContextPath() + "/projects?action=view&id=" + projectId);
-    }
+    // --- Private Helper Methods ---
 
     private void listProjects(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Project> projectList = projectDAO.getAllProjects();
         request.setAttribute("projectList", projectList);
-        request.getRequestDispatcher("/project-list.jsp").forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("project-list.jsp");
+        dispatcher.forward(request, response);
     }
 
-    private void showAddForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/project-form.jsp").forward(request, response);
+    // 在 ProjectServlet.java 中
+    private void viewProject(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int projectId = Integer.parseInt(request.getParameter("id"));
+            Project project = projectDAO.getProjectById(projectId);
+
+            // 如果找不到项目，则重定向到列表页并附带错误提示
+            if (project == null) {
+                response.sendRedirect(request.getContextPath() + "/projects?error=notFound");
+                return;
+            }
+
+            List<Task> taskList = taskDAO.getTasksByProjectId(projectId);
+            List<User> userList = userDAO.getAllUsers();
+
+            request.setAttribute("project", project);
+            request.setAttribute("taskList", taskList);
+            request.setAttribute("userList", userList);
+
+            String returnUrl = request.getParameter("returnUrl");
+            if (returnUrl != null && !returnUrl.isEmpty()) {
+                request.setAttribute("returnUrl", returnUrl);
+            }
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/project-detail.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/projects?error=unknown");
+        }
+    }
+
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("project-form.jsp");
+        dispatcher.forward(request, response);
     }
 
     private void insertProject(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Project project = new Project();
-        project.setProjectName(request.getParameter("projectName"));
-        project.setDescription(request.getParameter("description"));
+        Project newProject = new Project();
+        newProject.setProjectName(request.getParameter("projectName"));
+        newProject.setDescription(request.getParameter("description"));
+        newProject.setStartDate(Date.valueOf(request.getParameter("startDate")));
+        newProject.setEndDate(Date.valueOf(request.getParameter("endDate")));
+        newProject.setPurpose(request.getParameter("purpose"));
+        newProject.setProcedureSteps(request.getParameter("procedureSteps"));
+        newProject.setReagentsAndEquipment(request.getParameter("reagentsAndEquipment"));
 
+        // 从Session中获取当前登录用户的ID作为创建者ID
         User currentUser = (User) request.getSession().getAttribute("user");
-        project.setCreatorId(currentUser.getId());
+        newProject.setCreatorId(currentUser.getId());
 
-        project.setStatus("申请中");
+        // 新建项目时，默认状态为“申请中”，ID为1
+        newProject.setStatusId(1);
 
-        String startDateStr = request.getParameter("startDate");
-        if (startDateStr != null && !startDateStr.isEmpty()) {
-            project.setStartDate(Date.valueOf(startDateStr));
-        }
-
-        String endDateStr = request.getParameter("endDate");
-        if (endDateStr != null && !endDateStr.isEmpty()) {
-            project.setEndDate(Date.valueOf(endDateStr));
-        }
-
-        // 从request中获取新增的表单字段值，并设置到project对象中
-        project.setPurpose(request.getParameter("purpose"));
-        project.setProcedureSteps(request.getParameter("procedureSteps"));
-        project.setReagentsAndEquipment(request.getParameter("reagentsAndEquipment"));
-
-        request.getSession().setAttribute("successMessage", "新项目【" + project.getProjectName() + "】已成功创建！");
+        projectDAO.createProject(newProject);
         response.sendRedirect(request.getContextPath() + "/projects");
     }
 
-    private void viewProject(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int projectId = Integer.parseInt(request.getParameter("id"));
-
-        Project project = projectDAO.getProjectById(projectId);
-        List<Task> taskList = taskDAO.getTasksByProjectId(projectId);
-        List<User> userList = userDAO.getAllUsers();
-
-        String returnUrl = request.getParameter("returnUrl");
-
-        request.setAttribute("project", project);
-        request.setAttribute("taskList", taskList);
-        request.setAttribute("userList", userList);
-        request.setAttribute("returnUrl", returnUrl);
-
-        request.getRequestDispatcher("/project-detail.jsp").forward(request, response);
-    }
-
     private void createTaskForProject(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Task newTask = new Task();
         int projectId = Integer.parseInt(request.getParameter("projectId"));
-        Task task = new Task();
-        task.setProjectId(projectId);
-        task.setTaskName(request.getParameter("taskName"));
-        task.setDescription(request.getParameter("description"));
-        task.setAssigneeId(Integer.parseInt(request.getParameter("assigneeId")));
-        task.setPriority(request.getParameter("priority"));
-        task.setStatus("待办");
+
+        newTask.setProjectId(projectId);
+        newTask.setTaskName(request.getParameter("taskName"));
+        newTask.setDescription(request.getParameter("description"));
+        newTask.setAssigneeId(Integer.parseInt(request.getParameter("assigneeId")));
+        newTask.setPriority(request.getParameter("priority"));
+
         String dueDateStr = request.getParameter("dueDate");
         if (dueDateStr != null && !dueDateStr.isEmpty()) {
-            task.setDueDate(Date.valueOf(dueDateStr));
+            newTask.setDueDate(Date.valueOf(dueDateStr));
         }
-        taskDAO.createTask(task);
+
+        // 新建任务时，默认状态为“待办”，ID为1
+        newTask.setStatusId(1);
+
+        taskDAO.createTask(newTask);
         response.sendRedirect(request.getContextPath() + "/projects?action=view&id=" + projectId);
+    }
+
+    private void updateProjectStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            int projectId = Integer.parseInt(request.getParameter("projectId"));
+            String newStatusName = request.getParameter("newStatus");
+
+            // 检查newStatusName是否为空或乱码（包含非预期字符）
+            if (newStatusName == null || newStatusName.trim().isEmpty() ||
+                    !newStatusName.matches("^[\\u4e00-\\u9fa5]+$")) { // 仅允许中文
+                System.out.println("Invalid newStatusName: " + newStatusName);
+                response.sendRedirect(request.getContextPath() + "/projects?action=view&id=" + projectId + "&error=invalidStatus");
+                return;
+            }
+
+            int newStatusId = 0;
+            switch (newStatusName) {
+                case "申请中": newStatusId = 1; break;
+                case "进行中": newStatusId = 2; break;
+                case "已完成": newStatusId = 3; break;
+                case "已归档": newStatusId = 4; break;
+                default:
+                    System.out.println("Unsupported newStatusName: " + newStatusName);
+                    response.sendRedirect(request.getContextPath() + "/projects?action=view&id=" + projectId + "&error=unsupportedStatus");
+                    return;
+            }
+
+            projectDAO.updateProjectStatus(projectId, newStatusId);
+            response.sendRedirect(request.getContextPath() + "/projects?action=view&id=" + projectId + "&success=statusUpdated");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/projects?error=updateFailed");
+        }
     }
 }

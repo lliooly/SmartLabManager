@@ -10,9 +10,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3><i class="bi bi-cpu"></i> 设备详情</h3>
         <c:url var="fallbackUrl" value="/equipment"/>
-        <a href="${not empty returnUrl ? returnUrl : fallbackUrl}" class="btn btn-outline-secondary mb-3">
-            <i class="bi bi-arrow-left"></i> 返回
-        </a>
+        <a href="${not empty returnUrl ? returnUrl : fallbackUrl}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> 返回</a>
     </div>
 
     <div class="row">
@@ -33,9 +31,18 @@
                     <div class="card-body">
                         <form action="equipment?action=book" method="post">
                             <input type="hidden" name="equipmentId" value="${equipment.id}">
-                            <div class="form-group"><label>开始时间:</label><input type="datetime-local" name="startTime" class="form-control" required></div>
-                            <div class="form-group"><label>结束时间:</label><input type="datetime-local" name="endTime" class="form-control" required></div>
-                            <div class="form-group"><label>用途说明:</label><textarea name="purpose" class="form-control" rows="2" required></textarea></div>
+                            <div class="form-group">
+                                <label for="startTime">开始时间:</label>
+                                <input type="datetime-local" name="startTime" id="startTime" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="endTime">结束时间:</label>
+                                <input type="datetime-local" name="endTime" id="endTime" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="purpose">用途说明:</label>
+                                <textarea name="purpose" id="purpose" class="form-control" rows="2" required></textarea>
+                            </div>
                             <button type="submit" class="btn btn-primary">提交预约</button>
                         </form>
                     </div>
@@ -79,5 +86,20 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+
+        startTimeInput.addEventListener('change', function() {
+            // 当开始时间改变时，将结束时间的最小值设置为开始时间
+            if (startTimeInput.value) {
+                endTimeInput.min = startTimeInput.value;
+            }
+        });
+    });
+</script>
 
 <jsp:include page="/WEB-INF/layout/footer.jsp" />

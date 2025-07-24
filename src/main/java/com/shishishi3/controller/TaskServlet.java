@@ -1,7 +1,6 @@
 package com.shishishi3.controller;
 
 import com.shishishi3.dao.TaskDAO;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,24 +19,47 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-        // 从隐藏域获取projectId，以便操作完成后能跳回正确的项目详情页
-        int projectId = Integer.parseInt(request.getParameter("projectId"));
+        if (action == null) return;
 
-        if (action != null) {
+        try {
+            int projectId = Integer.parseInt(request.getParameter("projectId"));
             int taskId = Integer.parseInt(request.getParameter("taskId"));
+
             switch (action) {
                 case "update_status":
-                    String newStatus = request.getParameter("status");
-                    taskDAO.updateTaskStatus(taskId, newStatus);
+                    String statusName = request.getParameter("status");
+                    int statusId = 0;
+                    if (statusName != null) {
+                        switch (statusName) {
+                            case "申请中":
+                                statusId = 1;
+                                break;
+                            case "进行中":
+                                statusId = 2;
+                                break;
+                            case "已完成":
+                                statusId = 3;
+                                break;
+                            case "已归档":
+                                statusId = 4;
+                                break;
+                        }
+                    }
+                    if (statusId != 0) {
+                        taskDAO.updateTaskStatus(taskId, statusId);
+                    }
                     break;
+
                 case "delete":
                     taskDAO.deleteTask(taskId);
                     break;
             }
+            response.sendRedirect(request.getContextPath() + "/projects?action=view&id=" + projectId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/projects");
         }
-
-        // 所有操作完成后，重定向回项目详情页
-        response.sendRedirect(request.getContextPath() + "/projects?action=view&id=" + projectId);
     }
 }

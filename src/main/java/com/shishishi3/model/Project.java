@@ -17,6 +17,8 @@ public class Project {
     private String procedureSteps;
     private String reagentsAndEquipment;
     private String riskAssessmentReport;
+    private int statusId;
+    private String statusName;
 
     // 非数据库字段，用于方便在JSP中显示创建者姓名
     private String creatorName;
@@ -77,5 +79,19 @@ public class Project {
     }
     public void setRiskAssessmentReport(String riskAssessmentReport) {
         this.riskAssessmentReport = riskAssessmentReport;
+    }
+
+    public int getStatusId() {
+        return statusId;
+    }
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

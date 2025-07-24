@@ -10,7 +10,6 @@
   <style>
     .register-container { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 0; }
     .register-form-container { width: 100%; max-width: 500px; }
-    #verification-group { display: none; } /* 默认隐藏验证码输入框 */
   </style>
 </head>
 <body id="page-top">
@@ -26,8 +25,18 @@
           <div class="form-group"><label>姓名</label><input type="text" class="form-control" name="fullName" required></div>
           <div class="form-group"><label>用户名</label><input type="text" class="form-control" name="username" required></div>
           <div class="form-group"><label>邮箱</label><input type="email" class="form-control" name="email" id="email" required></div>
-          <div class="form-group"><label>密码</label><input type="password" class="form-control" name="password" id="password" required></div>
-          <div class="form-group"><label>确认密码</label><input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required></div>
+
+          <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" name="password" id="password" minlength="6" required>
+            <small class="form-text text-muted">
+              至少6位，且必须包含数字、大小写字母、特殊符号中的至少两种。
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">确认密码</label>
+            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
+          </div>
 
           <div class="input-group mb-3">
             <input type="text" class="form-control" name="verificationCode" placeholder="6位邮箱验证码" required>
@@ -35,6 +44,12 @@
               <button class="btn btn-outline-secondary" type="button" id="sendCodeBtn">发送验证码</button>
             </div>
           </div>
+
+<%--          <div>--%>
+<%--            <small class="form-text text-muted">--%>
+<%--              注册密码报错后，请重新验证!--%>
+<%--            </small>--%>
+<%--          </div>--%>
 
           <button type="submit" class="btn btn-primary btn-block">立即注册</button>
           <div class="text-center mt-3"><a href="login">已有账户？直接登录</a></div>
@@ -45,6 +60,17 @@
 </div>
 
 <script>
+  // 前端密码匹配校验
+  const form = document.getElementById('registerForm');
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+
+  form.addEventListener('submit', function(event) {
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      alert('两次输入的密码不一致！');
+      event.preventDefault(); // 阻止表单提交
+    }
+  });
   document.getElementById('sendCodeBtn').addEventListener('click', function() {
     const email = document.getElementById('email').value;
     const btn = this;

@@ -14,7 +14,6 @@ public class EquipmentDAO {
 
     /**
      * 获取所有设备的列表
-     * @return 包含所有 Equipment 对象的列表
      */
     public List<Equipment> getAllEquipment() {
         List<Equipment> equipmentList = new ArrayList<>();
@@ -23,16 +22,7 @@ public class EquipmentDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                Equipment equipment = new Equipment();
-                equipment.setId(rs.getInt("id"));
-                equipment.setName(rs.getString("name"));
-                equipment.setModel(rs.getString("model"));
-                equipment.setSerialNumber(rs.getString("serial_number"));
-                equipment.setStatus(rs.getString("status"));
-                equipment.setLocation(rs.getString("location"));
-                equipment.setPurchaseDate(rs.getDate("purchase_date"));
-                equipment.setLastMaintenanceDate(rs.getDate("last_maintenance_date"));
-                equipmentList.add(equipment);
+                equipmentList.add(mapRowToEquipment(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,7 +31,7 @@ public class EquipmentDAO {
     }
 
     /**
-     * 根据ID获取单个设备的详细信息
+     * 根据ID获取单个设备的详细信息 (修正版)
      * @param id 设备ID
      * @return Equipment对象，未找到则返回null
      */
@@ -53,8 +43,8 @@ public class EquipmentDAO {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                equipment = new Equipment();
-                // ... (代码与上面 getAllEquipment 中的 while 循环内部相同)
+                // 使用辅助方法来填充对象，确保所有字段都被正确赋值
+                equipment = mapRowToEquipment(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,9 +52,9 @@ public class EquipmentDAO {
         return equipment;
     }
 
+
     /**
-     * 添加一个新设备到数据库 (供管理员/教师使用)
-     * @param equipment 要添加的设备对象
+     * 添加一个新设备到数据库
      */
     public void addEquipment(Equipment equipment) {
         String sql = "INSERT INTO equipment (name, model, serial_number, status, location, purchase_date, last_maintenance_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -85,10 +75,10 @@ public class EquipmentDAO {
 
     /**
      * 创建一个新的设备预约记录
-     * @param booking 要创建的预约对象
+     * @throws SQLException
      */
-    public void createBooking(EquipmentBooking booking) {
-        String sql = "INSERT INTO equipment_bookings (equipment_id, user_id, start_time, end_time, purpose, status) VALUES (?, ?, ?, ?, ?, ?)";
+    public void createBooking(EquipmentBooking booking) throws SQLException {
+        String sql = "INSERT INTO equipment_bookings (equipment_id, user_id, start_time, end_time, purpose, status) VALUES (?, ?, ?, ?, ?, '已预约')";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, booking.getEquipmentId());
@@ -96,34 +86,25 @@ public class EquipmentDAO {
             pstmt.setTimestamp(3, booking.getStartTime());
             pstmt.setTimestamp(4, booking.getEndTime());
             pstmt.setString(5, booking.getPurpose());
-            pstmt.setString(6, "已预约"); // 默认状态
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     /**
-     * 检查指定设备在某个时间段内是否已被预约，防止冲突
-     * @param equipmentId 设备ID
-     * @param startTime 拟预约的开始时间
-     * @param endTime 拟预约的结束时间
-     * @return 如果存在时间冲突则返回true，否则返回false
+     * 检查指定设备在某个时间段内是否已被预约
      */
     public boolean hasBookingConflict(int equipmentId, Timestamp startTime, Timestamp endTime) {
-        // SQL逻辑：检查是否存在一个已有的预约，它的时间段与我们的新预约时间段有任何重叠
-        String sql = "SELECT id FROM equipment_bookings WHERE equipment_id = ? AND status = '已预约' AND " +
-                "(start_time < ? AND end_time > ?)";
+        String sql = "SELECT id FROM equipment_bookings WHERE equipment_id = ? AND status = '已预约' AND (start_time < ? AND end_time > ?)";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, equipmentId);
-            pstmt.setTimestamp(2, endTime); // 检查已有预约是否在新预约结束前开始
-            pstmt.setTimestamp(3, startTime); // 检查已有预约是否在新预约开始后结束
+            pstmt.setTimestamp(2, endTime);
+            pstmt.setTimestamp(3, startTime);
             ResultSet rs = pstmt.executeQuery();
-            return rs.next(); // 如果能查到记录，说明存在冲突
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
-            return true; // 出错时默认有冲突，防止意外预定
+            return true;
         }
     }
 
@@ -282,5 +263,21 @@ public class EquipmentDAO {
             e.printStackTrace();
         }
         return monthlyCounts;
+    }
+
+    /**
+     * 私有辅助方法，用于将ResultSet的一行映射到一个Equipment对象，避免代码重复
+     */
+    private Equipment mapRowToEquipment(ResultSet rs) throws SQLException {
+        Equipment equipment = new Equipment();
+        equipment.setId(rs.getInt("id"));
+        equipment.setName(rs.getString("name"));
+        equipment.setModel(rs.getString("model"));
+        equipment.setSerialNumber(rs.getString("serial_number"));
+        equipment.setStatus(rs.getString("status"));
+        equipment.setLocation(rs.getString("location"));
+        equipment.setPurchaseDate(rs.getDate("purchase_date"));
+        equipment.setLastMaintenanceDate(rs.getDate("last_maintenance_date"));
+        return equipment;
     }
 }

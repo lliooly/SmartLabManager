@@ -1,11 +1,16 @@
 package com.shishishi3.util;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Properties;
 
 public class AiService {
@@ -13,83 +18,96 @@ public class AiService {
     private static final String API_ENDPOINT = "https://api.deepseek.com/chat/completions";
     private static String apiKey;
 
-    // 从配置文件加载API Key
     static {
         Properties props = new Properties();
-        try (InputStream input = DbUtil.class.getClassLoader().getResourceAsStream("db.properties")) {
-            props.load(input);
-            apiKey = props.getProperty("deepseek.api.key");
+        try (InputStream input = AiService.class.getClassLoader().getResourceAsStream("db.properties")) {
+            if (input != null) {
+                props.load(input);
+                apiKey = props.getProperty("deepseek.api.key");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * 发送实验方案给DeepSeek模型进行风险评估
-     * @param experimentDetails 用户输入的实验详情字符串
-     * @return AI模型返回的JSON格式的评估报告字符串
-     */
-    public static String getRiskAssessment(String experimentDetails) {
-        // 1. 设计高质量的提示词 (Prompt)
-        String prompt = "你是一名顶级的实验室安全专家（HSE），你的任务是为我提供的实验方案进行全面的风险评估。" +
-                "请严格按照以下JSON格式返回你的分析结果，不要有任何额外的解释和对话：" +
-                "{\"risk_points\":[{\"step\":\"描述具体是哪个步骤\",\"risk\":\"识别出的具体风险\",\"level\":\"评估的风险等级 (高/中/低)\"}]," +
-                "\"suggestions\":[\"第一条具体改进建议...\",\"第二条具体改进建议...\"]," +
-                "\"emergency_plan\":{\"chemical_spill\":\"针对化学品泄漏的应急预案...\",\"fire\":\"针对火灾的应急预案...\",\"personal_injury\":\"针对人员受伤的应急预案...\"}}";
+    public static String getRiskAssessment(String contentToAssess) {
+        if (apiKey == null || apiKey.isBlank()) {
+            return "{\"error\":\"API Key未配置或加载失败，请检查db.properties文件。\"}";
+        }
 
-        // 2. 构建符合DeepSeek API要求的JSON请求体
-        String jsonBody = "{" +
-                "\"model\": \"deepseek-chat\"," +
-                "\"messages\": [" +
-                "  {\"role\": \"system\", \"content\": \"" + prompt + "\"}," +
-                "  {\"role\": \"user\", \"content\": \"" + escapeJson(experimentDetails) + "\"}" +
-                "]" +
+        String prompt = "你是一名顶级的实验室安全专家(HSE)，请为我提供的实验方案进行全面的风险评估。" +
+                "你的回答必须且只能是一个完整的JSON对象，严格遵循以下结构，不要有任何额外的解释和对话：" +
+                "{" +
+                "  \"risk_assessment\": [" +
+                "    {\"risk_item\": \"识别出的具体风险点\", \"risk_level\": \"评估的风险等级(高/中/低)\", \"protective_measure\": \"针对该风险点的具体防护措施建议\"}" +
+                "  ]," +
+                "  \"emergency_plan\": {" +
+                "    \"procedure_guidance\": \"突发情况的通用应对流程指引。\", " +
+                "    \"accident_record_analysis\": \"发生安全事故后，应如何记录与分析的指导建议。\"" +
+                "  }" +
                 "}";
 
-        HttpClient client = HttpClient.newHttpClient();
+        String jsonBody = String.format(
+                "{\"model\": \"deepseek-chat\", \"messages\": [{\"role\": \"system\", \"content\": \"%s\"}, {\"role\": \"user\", \"content\": \"%s\"}]}",
+                escapeJson(prompt),
+                escapeJson(contentToAssess)
+        );
+
+        HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(20))
+                .build();
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_ENDPOINT))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + apiKey)
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .timeout(Duration.ofSeconds(60))
                 .build();
 
         try {
-            // 3. 发送请求并获取响应
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+            String responseBody = new String(response.body(), StandardCharsets.UTF_8);
 
-            // 4. 解析响应，提取出AI生成的内容
-            // 注意：这里是简化的解析，实际项目中建议使用Gson或Jackson库
-            String responseBody = response.body();
-            if (responseBody != null && responseBody.contains("\"content\":\"")) {
-                int start = responseBody.indexOf("\"content\":\"") + 11;
-                int end = responseBody.lastIndexOf("\"},\"finish_reason\"");
-                if (start < end) {
-                    return unescapeJson(responseBody.substring(start, end));
-                }
+            if (response.statusCode() != 200) {
+                return "{\"error\":\"AI服务返回了错误状态码: " + response.statusCode() + ", 响应: " + escapeJson(responseBody) + "\"}";
             }
-            return "{\"error\":\"无法解析AI模型的响应\"}";
-        } catch (IOException | InterruptedException e) {
+
+            if (responseBody != null && !responseBody.isBlank()) {
+                JsonObject responseObject = JsonParser.parseString(responseBody).getAsJsonObject();
+                String content = responseObject.getAsJsonArray("choices")
+                        .get(0).getAsJsonObject()
+                        .get("message").getAsJsonObject()
+                        .get("content").getAsString();
+
+                // ==================== 最终核心修正：清理AI返回的Markdown格式 ====================
+                String cleanJson = content.trim(); // 去除首尾空白
+                if (cleanJson.startsWith("```json")) {
+                    cleanJson = cleanJson.substring(7); // 去除 "```json"
+                }
+                if (cleanJson.endsWith("```")) {
+                    cleanJson = cleanJson.substring(0, cleanJson.length() - 3);
+                }
+
+                // 再次去除可能存在的首尾空白
+                cleanJson = cleanJson.trim();
+
+                return cleanJson; // 返回清理后的纯净JSON
+                // =================================================================================
+
+            }
+            return "{\"error\":\"AI模型返回了空的响应\"}";
+        } catch (java.net.http.HttpTimeoutException e) {
             e.printStackTrace();
-            return "{\"error\":\"调用AI服务时发生网络或中断错误\"}";
+            return "{\"error\":\"调用AI服务超时，请稍后再试。\"}";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"error\":\"调用AI服务或解析响应时发生错误: " + e.getMessage() + "\"}";
         }
     }
 
-    // 辅助方法，用于转义JSON字符串中的特殊字符
     private static String escapeJson(String text) {
-        return text.replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("\n", "\\n")
-                .replace("\r", "\\r")
-                .replace("\t", "\\t");
-    }
-
-    // 辅助方法，用于反转义AI响应中的字符
-    private static String unescapeJson(String text) {
-        return text.replace("\\\"", "\"")
-                .replace("\\n", "\n")
-                .replace("\\r", "\r")
-                .replace("\\t", "\t")
-                .replace("\\\\", "\\");
+        if (text == null) return "";
+        return text.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\t");
     }
 }

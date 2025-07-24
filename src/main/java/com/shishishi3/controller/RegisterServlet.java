@@ -3,6 +3,7 @@ package com.shishishi3.controller;
 import com.shishishi3.dao.UserDAO;
 import com.shishishi3.model.User;
 import org.mindrot.jbcrypt.BCrypt;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,39 +32,52 @@ public class RegisterServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession(false);
 
+        // 1. 从表单获取所有信息
         String fullName = request.getParameter("fullName");
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
         String submittedCode = request.getParameter("verificationCode");
 
-        // 安全检查：确保Session和验证码都存在
-        if (session == null || session.getAttribute("verification_code") == null || session.getAttribute("verification_code_expiry") == null) {
-            request.setAttribute("error", "验证流程已过期，请重新发送验证码。");
+        // 2. 严格的后端校验
+        if (!password.equals(confirmPassword)) {
+            request.setAttribute("error", "两次输入的密码不一致。");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
+        if (!isPasswordComplexEnough(password)) {
+            request.setAttribute("error", "密码强度不足。密码必须至少6位，且包含数字、大小写字母、特殊符号中的至少两种。");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
+        if (userDAO.isUserExists(username, email)) {
+            request.setAttribute("error", "注册失败，用户名或邮箱已被占用。");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
 
+        // 3. 校验验证码
+        if (session == null || session.getAttribute("verification_code") == null) {
+            request.setAttribute("error", "请先发送并接收验证码。");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
         String sessionCode = (String) session.getAttribute("verification_code");
         long expiryTime = (long) session.getAttribute("verification_code_expiry");
 
-        // ==================== 新增：校验验证码是否过期 ====================
         if (System.currentTimeMillis() > expiryTime) {
-            session.removeAttribute("verification_code"); // 让旧验证码失效
-            session.removeAttribute("verification_code_expiry");
             request.setAttribute("error", "验证码已过期，请重新发送。");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
-        // =================================================================
-
         if (!sessionCode.equals(submittedCode)) {
             request.setAttribute("error", "验证码不正确。");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
 
-        // 验证码正确且未过期，执行注册
+        // 4. 所有验证通过，执行注册
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         User newUser = new User();
         newUser.setFullName(fullName);
@@ -79,8 +93,18 @@ public class RegisterServlet extends HttpServlet {
             session.removeAttribute("verification_code_expiry");
             response.sendRedirect("login?reg=success");
         } else {
-            request.setAttribute("error", "注册失败，用户名或邮箱可能已被占用。");
+            request.setAttribute("error", "注册失败，发生未知数据库错误。");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
+    }
+
+    private boolean isPasswordComplexEnough(String password) {
+        if (password == null || password.length() < 6) return false;
+        int categories = 0;
+        if (password.matches(".*[A-Z].*")) categories++;
+        if (password.matches(".*[a-z].*")) categories++;
+        if (password.matches(".*[0-9].*")) categories++;
+        if (password.matches(".*[^A-Za-z0-9].*")) categories++;
+        return categories >= 2;
     }
 }

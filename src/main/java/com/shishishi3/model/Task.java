@@ -9,8 +9,10 @@ public class Task {
     private int projectId;
     private int assigneeId; // 负责人ID
     private String priority; // '高', '中', '低'
-    private String status;   // '待办', '进行中', '已完成'
     private Date dueDate;
+    private int statusId;
+    private String statusName;
+
 
     // 非数据库字段，用于显示
     private String assigneeName;
@@ -31,8 +33,6 @@ public class Task {
     public void setAssigneeId(int assigneeId) { this.assigneeId = assigneeId; }
     public String getPriority() { return priority; }
     public void setPriority(String priority) { this.priority = priority; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
     public Date getDueDate() { return dueDate; }
     public void setDueDate(Date dueDate) { this.dueDate = dueDate; }
     public String getAssigneeName() { return assigneeName; }
@@ -42,5 +42,17 @@ public class Task {
     }
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+    public int getStatusId() {
+        return statusId;
+    }
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+    public String getStatusName() {
+        return statusName;
+    }
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

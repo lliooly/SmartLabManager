@@ -16,6 +16,16 @@
     </c:if>
   </div>
 
+  <%-- ==================== 新增代码 开始 ==================== --%>
+  <c:if test="${param.error == 'notFound'}">
+    <div class="alert alert-danger">错误：您所请求的项目不存在。</div>
+  </c:if>
+  <c:if test="${param.error == 'invalidId'}">
+    <div class="alert alert-danger">错误：提供的项目ID无效。</div>
+  </c:if>
+  <%-- ==================== 新增代码 结束 ==================== --%>
+
+
   <div class="card card-glass">
     <div class="card-body">
       <table class="table table-hover">
@@ -38,7 +48,12 @@
             <td><fmt:formatDate value="${project.startDate}" pattern="yyyy-MM-dd"/></td>
             <td><fmt:formatDate value="${project.endDate}" pattern="yyyy-MM-dd"/></td>
             <td>
-              <a href="${pageContext.request.contextPath}/projects?action=view&id=${project.id}&returnUrl=${pageContext.request.requestURI}" class="btn btn-info btn-sm">查看详情</a>
+            <c:url var="detailUrl" value="/projects">
+              <c:param name="action" value="view"/>
+              <c:param name="id" value="${project.id}"/>
+              <c:param name="returnUrl" value="${pageContext.request.contextPath}/projects"/>
+            </c:url>
+            <a href="${detailUrl}" class="btn btn-info btn-sm">查看详情</a>
             </td>
           </tr>
         </c:forEach>
