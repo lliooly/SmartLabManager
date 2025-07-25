@@ -9,7 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="optimize the UI &amp; fix all bugs(maybe)" />
+    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="optimize the UI &amp; fix all bugs(maybe)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -338,6 +340,8 @@
       <workItem from="1753292444623" duration="12902000" />
       <workItem from="1753339977475" duration="20959000" />
       <workItem from="1753367281608" duration="4856000" />
+      <workItem from="1753415000766" duration="430000" />
+      <workItem from="1753434416836" duration="1489000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit &amp; Login/register func">
       <option name="closed" value="true" />
@@ -443,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753372547186</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="optimize the UI &amp; fix all bugs(maybe)">
+      <option name="closed" value="true" />
+      <created>1753415018829</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1753415018829</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
