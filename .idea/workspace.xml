@@ -9,19 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="fix all bugs(maybe)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/SupplyRequestServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/controller/SupplyRequestServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/SupplyDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shishishi3/dao/SupplyDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/footer.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/footer.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/header.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/layout/navbar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/my-requests.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/my-requests.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/project-detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/project-detail.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/supply-request-form.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/supply-request-form.jsp" afterDir="false" />
-    </list>
+    <list default="true" id="ce63ed19-2c3a-47ca-8d23-98321df868f0" name="更改" comment="optimize the UI &amp; fix all bugs(maybe)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -349,7 +337,7 @@
       <workItem from="1753288743762" duration="3623000" />
       <workItem from="1753292444623" duration="12902000" />
       <workItem from="1753339977475" duration="20959000" />
-      <workItem from="1753367281608" duration="4781000" />
+      <workItem from="1753367281608" duration="4856000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit &amp; Login/register func">
       <option name="closed" value="true" />
@@ -447,7 +435,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753345378878</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="optimize the UI &amp; fix all bugs(maybe)">
+      <option name="closed" value="true" />
+      <created>1753372547186</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1753372547186</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,7 +458,8 @@
     <MESSAGE value="finish all dev and rebuid all UI, making every page has glass effect" />
     <MESSAGE value="fix bugs" />
     <MESSAGE value="fix all bugs(maybe)" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix all bugs(maybe)" />
+    <MESSAGE value="optimize the UI &amp; fix all bugs(maybe)" />
+    <option name="LAST_COMMIT_MESSAGE" value="optimize the UI &amp; fix all bugs(maybe)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
